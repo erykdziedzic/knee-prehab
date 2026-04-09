@@ -9,6 +9,8 @@ const State = {
     assessmentRun: false,
     baselineInputs: {},
     exerciseInputs: {},
+    editingSessionIndex: null,
+    editingDate: null,
   },
 };
 
@@ -79,7 +81,7 @@ function saveDraft() {
 
 function clearDraft() {
   localStorage.removeItem(DRAFT_KEY);
-  State.draft = { assessmentRun: false, baselineInputs: {}, exerciseInputs: {} };
+  State.draft = { assessmentRun: false, baselineInputs: {}, exerciseInputs: {}, editingSessionIndex: null, editingDate: null };
 }
 
 function initExerciseDraft(name, type, sets) {
@@ -346,6 +348,64 @@ function unitShort(unit) {
   return unit;
 }
 
+// ── Load session into draft for editing ──────────────────────────────
+
+function loadSessionIntoDraft(session, sessionIndex) {
+  clearDraft();
+  State.draft.editingSessionIndex = sessionIndex;
+  State.draft.editingDate = session.date;
+
+  if (session.baseline_results && session.baseline_results.length > 0) {
+    State.draft.assessmentRun = true;
+    session.baseline_results.forEach(r => {
+      if (!State.draft.baselineInputs[r.test_id]) State.draft.baselineInputs[r.test_id] = {};
+      if (r.side) {
+        State.draft.baselineInputs[r.test_id][r.side] = String(r.value);
+      } else {
+        State.draft.baselineInputs[r.test_id].value = String(r.value);
+      }
+    });
+  }
+
+  (session.exercise_logs || []).forEach(log => {
+    let ex = null;
+    for (const block of State.data.blocks) {
+      ex = block.exercises.find(e => e.name === log.exercise_name);
+      if (ex) break;
+    }
+    if (!ex) return;
+
+    const type = exType(ex);
+    const sets = log.sets_completed || [];
+
+    if (type === 'duration') {
+      State.draft.exerciseInputs[log.exercise_name] = { completed: sets.length > 0 };
+    } else if (type === 'bilateral') {
+      const weight = sets.length > 0 && sets[0].weight_kg !== null ? String(sets[0].weight_kg) : '';
+      const pairedSets = [];
+      for (let i = 0; i < sets.length; i += 2) {
+        pairedSets.push({
+          left_reps: sets[i] && sets[i].reps !== null ? String(sets[i].reps) : '',
+          right_reps: sets[i + 1] && sets[i + 1].reps !== null ? String(sets[i + 1].reps) : '',
+        });
+      }
+      State.draft.exerciseInputs[log.exercise_name] = { weight_kg: weight, sets: pairedSets };
+    } else {
+      const weight = sets.length > 0 && sets[0].weight_kg !== null ? String(sets[0].weight_kg) : '';
+      const mappedSets = sets.map(s => ({
+        reps: s.reps !== null ? String(s.reps) : '',
+        rpe: s.rpe_actual !== null ? String(s.rpe_actual) : '',
+      }));
+      State.draft.exerciseInputs[log.exercise_name] = { weight_kg: weight, sets: mappedSets };
+    }
+  });
+
+  saveDraft();
+  renderBlocks(State.data.blocks, State.activeTier);
+  document.getElementById('btn-finish').textContent = 'Update & Export Session';
+  switchTab('workout');
+}
+
 // ── Render: History ──────────────────────────────────────────────────
 
 function renderHistory(sessions, tests) {
@@ -360,9 +420,16 @@ function renderHistory(sessions, tests) {
   const testMap = {};
   tests.forEach(t => { testMap[t.id] = t; });
 
-  [...sessions].reverse().forEach(session => {
+  [...sessions].reverse().forEach((session, reversedIdx) => {
+    const origIdx = sessions.length - 1 - reversedIdx;
     const card = el('div', 'history-card');
-    card.appendChild(el('div', 'history-date', session.date));
+
+    const cardHeader = el('div', 'history-card-header');
+    cardHeader.appendChild(el('div', 'history-date', session.date));
+    const editBtn = el('button', 'history-edit-btn', 'Edit');
+    editBtn.addEventListener('click', () => loadSessionIntoDraft(session, origIdx));
+    cardHeader.appendChild(editBtn);
+    card.appendChild(cardHeader);
 
     const exList = el('ul', 'history-exercises');
     (session.exercise_logs || []).forEach(log => {
@@ -502,10 +569,15 @@ function switchTab(tab) {
 // ── Session building & export ────────────────────────────────────────
 
 function buildSessionObject() {
-  const today = new Date();
-  const date = today.getFullYear() + '-'
-    + String(today.getMonth() + 1).padStart(2, '0') + '-'
-    + String(today.getDate()).padStart(2, '0');
+  let date;
+  if (State.draft.editingDate) {
+    date = State.draft.editingDate;
+  } else {
+    const today = new Date();
+    date = today.getFullYear() + '-'
+      + String(today.getMonth() + 1).padStart(2, '0') + '-'
+      + String(today.getDate()).padStart(2, '0');
+  }
 
   const session = {
     date,
@@ -604,9 +676,14 @@ function finishSession() {
   const session = buildSessionObject();
   const updated = JSON.parse(JSON.stringify(State.data)); // deep clone
   if (!updated.sessions) updated.sessions = [];
-  updated.sessions.push(session);
+  if (State.draft.editingSessionIndex !== null) {
+    updated.sessions[State.draft.editingSessionIndex] = session;
+  } else {
+    updated.sessions.push(session);
+  }
   triggerDownload(updated);
   clearDraft();
+  document.getElementById('btn-finish').textContent = 'Finish & Export Session';
   // Re-render workout with fresh inputs
   renderBlocks(State.data.blocks, State.activeTier);
 }

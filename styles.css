@@ -545,11 +545,32 @@ input[type="number"] {
   margin-bottom: 12px;
 }
 
+.history-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 .history-date {
   font-weight: 700;
   font-size: 0.95rem;
   color: var(--accent);
-  margin-bottom: 10px;
+}
+
+.history-edit-btn {
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+
+.history-edit-btn:active {
+  background: var(--surface-raised);
 }
 
 .history-exercises {

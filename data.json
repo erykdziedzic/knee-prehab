@@ -94,9 +94,18 @@
           "notes": "Feet shoulder width, mid-platform. Full ROM but stop before knee pain onset. Primary tendon loader.",
           "reference": "kongsgaard_2009",
           "progression": [
-            { "weeks": "1-2", "instruction": "Find working weight, start ~60 kg" },
-            { "weeks": "3-4", "instruction": "Add 5 kg if all sets completed at RPE ≤7" },
-            { "weeks": "5+", "instruction": "Continue adding 2.5-5 kg per session when possible" }
+            {
+              "weeks": "1-2",
+              "instruction": "Find working weight, start ~60 kg"
+            },
+            {
+              "weeks": "3-4",
+              "instruction": "Add 5 kg if all sets completed at RPE ≤7"
+            },
+            {
+              "weeks": "5+",
+              "instruction": "Continue adding 2.5-5 kg per session when possible"
+            }
           ]
         },
         {
@@ -110,8 +119,14 @@
           "notes": "Loop heavy band behind knees, anchored to rig. Lean back into band, squat to parallel. Keeps tibia vertical, loads quad tendon with minimal patellofemoral compression.",
           "reference": "rio_2015",
           "progression": [
-            { "weeks": "1-2", "instruction": "Bodyweight only, find appropriate band tension" },
-            { "weeks": "3+", "instruction": "Hold dumbbell at chest to add load" }
+            {
+              "weeks": "1-2",
+              "instruction": "Bodyweight only, find appropriate band tension"
+            },
+            {
+              "weeks": "3+",
+              "instruction": "Hold dumbbell at chest to add load"
+            }
           ]
         },
         {
@@ -125,8 +140,14 @@
           "notes": "Barbell or dumbbells. Soft knee bend, hip hinge, feel hamstring stretch at bottom. Posterior chain balance, hamstrings as ACL agonist.",
           "reference": null,
           "progression": [
-            { "weeks": "1-2", "instruction": "Start ~30 kg barbell or 2x12 kg dumbbells" },
-            { "weeks": "3+", "instruction": "Add 2.5-5 kg when RPE drops below 7" }
+            {
+              "weeks": "1-2",
+              "instruction": "Start ~30 kg barbell or 2x12 kg dumbbells"
+            },
+            {
+              "weeks": "3+",
+              "instruction": "Add 2.5-5 kg when RPE drops below 7"
+            }
           ]
         }
       ]
@@ -146,9 +167,18 @@
           "notes": "Rear foot on bench. Slight forward trunk lean. Eccentric emphasis mimics downhill braking in trail running.",
           "reference": "lack_2015",
           "progression": [
-            { "weeks": "1-2", "instruction": "Bodyweight only" },
-            { "weeks": "3-4", "instruction": "Hold 2x6-8 kg dumbbells" },
-            { "weeks": "5+", "instruction": "Add 2 kg per dumbbell when RPE allows" }
+            {
+              "weeks": "1-2",
+              "instruction": "Bodyweight only"
+            },
+            {
+              "weeks": "3-4",
+              "instruction": "Hold 2x6-8 kg dumbbells"
+            },
+            {
+              "weeks": "5+",
+              "instruction": "Add 2 kg per dumbbell when RPE allows"
+            }
           ]
         },
         {
@@ -162,8 +192,14 @@
           "notes": "Cable at ankle, standing with slight forward trunk lean. Slow and controlled. Targets glute medius to reduce femoral internal rotation and medial knee stress.",
           "reference": "powers_2010",
           "progression": [
-            { "weeks": "1-2", "instruction": "Light band or 5 kg cable" },
-            { "weeks": "3+", "instruction": "Increase resistance when 15 reps feels easy" }
+            {
+              "weeks": "1-2",
+              "instruction": "Light band or 5 kg cable"
+            },
+            {
+              "weeks": "3+",
+              "instruction": "Increase resistance when 15 reps feels easy"
+            }
           ]
         },
         {
@@ -177,7 +213,10 @@
           "notes": "Feet on bench variation increases glute med activation by ~30% vs floor. Targets external rotators to protect against knee valgus.",
           "reference": "selkowitz_2013",
           "progression": [
-            { "weeks": "all", "instruction": "Progress band resistance when RPE <5" }
+            {
+              "weeks": "all",
+              "instruction": "Progress band resistance when RPE <5"
+            }
           ]
         }
       ]
@@ -197,8 +236,14 @@
           "notes": "Stand on step edge, full ROM (drop heel below platform, rise to max). Hold dumbbell. Soleus + gastroc strength reduces load transferred to knee.",
           "reference": "hebert_losier_2017",
           "progression": [
-            { "weeks": "1-2", "instruction": "Bodyweight only, master full ROM" },
-            { "weeks": "3+", "instruction": "Hold 8-12 kg dumbbell, add 2 kg when easy" }
+            {
+              "weeks": "1-2",
+              "instruction": "Bodyweight only, master full ROM"
+            },
+            {
+              "weeks": "3+",
+              "instruction": "Hold 8-12 kg dumbbell, add 2 kg when easy"
+            }
           ]
         },
         {
@@ -213,9 +258,18 @@
           "notes": "Flat side up. Proprioceptive challenge for trail terrain.",
           "reference": "hewett_2005",
           "progression": [
-            { "weeks": "1-2", "instruction": "Eyes open" },
-            { "weeks": "3-4", "instruction": "Eyes closed" },
-            { "weeks": "5+", "instruction": "Add gentle perturbations (partner push)" }
+            {
+              "weeks": "1-2",
+              "instruction": "Eyes open"
+            },
+            {
+              "weeks": "3-4",
+              "instruction": "Eyes closed"
+            },
+            {
+              "weeks": "5+",
+              "instruction": "Add gentle perturbations (partner push)"
+            }
           ]
         }
       ]
@@ -285,6 +339,328 @@
       "key": "piva_2006",
       "citation": "Piva SR, Fitzgerald K, Irrgang JJ, et al. Reliability of measures of impairments associated with patellofemoral pain syndrome. BMC Musculoskelet Disord. 2006;7:33.",
       "claim": "Step-down test from a 20cm step is a reliable measure of eccentric quadriceps control and correlates with patellofemoral pain severity."
+    }
+  ],
+  "sessions": [
+    {
+      "date": "2026-04-09",
+      "baseline_results": [],
+      "exercise_logs": [
+        {
+          "exercise_name": "Bike or Rower",
+          "sets_completed": [
+            {
+              "reps": null,
+              "weight_kg": null,
+              "duration_sec": 180,
+              "side": null,
+              "rpe_actual": null
+            }
+          ]
+        },
+        {
+          "exercise_name": "Bodyweight Squat to Box",
+          "sets_completed": [
+            {
+              "reps": 10,
+              "weight_kg": 0,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 3
+            },
+            {
+              "reps": null,
+              "weight_kg": 0,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 3
+            }
+          ]
+        },
+        {
+          "exercise_name": "Leg Press",
+          "sets_completed": [
+            {
+              "reps": 8,
+              "weight_kg": 70,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 7
+            },
+            {
+              "reps": 8,
+              "weight_kg": 70,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 7
+            },
+            {
+              "reps": 8,
+              "weight_kg": 70,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 7
+            },
+            {
+              "reps": 8,
+              "weight_kg": 70,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 7
+            }
+          ]
+        },
+        {
+          "exercise_name": "Spanish Squat",
+          "sets_completed": [
+            {
+              "reps": 12,
+              "weight_kg": 20,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 6
+            },
+            {
+              "reps": 12,
+              "weight_kg": 20,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 6
+            },
+            {
+              "reps": 12,
+              "weight_kg": 20,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 6
+            }
+          ]
+        },
+        {
+          "exercise_name": "Romanian Deadlift",
+          "sets_completed": [
+            {
+              "reps": 8,
+              "weight_kg": 30,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 4
+            },
+            {
+              "reps": null,
+              "weight_kg": 30,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 4
+            },
+            {
+              "reps": null,
+              "weight_kg": 30,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 4
+            }
+          ]
+        },
+        {
+          "exercise_name": "Bulgarian Split Squat",
+          "sets_completed": [
+            {
+              "reps": null,
+              "weight_kg": 32,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": null,
+              "weight_kg": 32,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            },
+            {
+              "reps": null,
+              "weight_kg": 32,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": null,
+              "weight_kg": 32,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            },
+            {
+              "reps": null,
+              "weight_kg": 32,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": null,
+              "weight_kg": 32,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            }
+          ]
+        },
+        {
+          "exercise_name": "Side-Lying Hip Abduction (Cable)",
+          "sets_completed": [
+            {
+              "reps": null,
+              "weight_kg": 50,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": null,
+              "weight_kg": 50,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            },
+            {
+              "reps": null,
+              "weight_kg": 50,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": null,
+              "weight_kg": 50,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            },
+            {
+              "reps": null,
+              "weight_kg": 50,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": null,
+              "weight_kg": 50,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            }
+          ]
+        },
+        {
+          "exercise_name": "Clamshell with Band (Feet Elevated)",
+          "sets_completed": [
+            {
+              "reps": 0,
+              "weight_kg": null,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": 0,
+              "weight_kg": null,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            },
+            {
+              "reps": 0,
+              "weight_kg": null,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": 0,
+              "weight_kg": null,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            }
+          ]
+        },
+        {
+          "exercise_name": "Single-Leg Calf Raise (Step, Weighted)",
+          "sets_completed": [
+            {
+              "reps": 12,
+              "weight_kg": 15,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": 12,
+              "weight_kg": 15,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            },
+            {
+              "reps": 12,
+              "weight_kg": 15,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": 12,
+              "weight_kg": 15,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            },
+            {
+              "reps": 12,
+              "weight_kg": 15,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": 12,
+              "weight_kg": 15,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            }
+          ]
+        },
+        {
+          "exercise_name": "Single-Leg Balance on BOSU (Eyes Closed)",
+          "sets_completed": [
+            {
+              "reps": null,
+              "weight_kg": null,
+              "duration_sec": 30,
+              "side": null,
+              "rpe_actual": null
+            }
+          ]
+        },
+        {
+          "exercise_name": "Quad + Hip Flexor Stretch",
+          "sets_completed": [
+            {
+              "reps": null,
+              "weight_kg": null,
+              "duration_sec": 60,
+              "side": null,
+              "rpe_actual": null
+            }
+          ]
+        }
+      ]
     }
   ]
 }
