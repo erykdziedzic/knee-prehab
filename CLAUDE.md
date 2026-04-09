@@ -22,6 +22,15 @@ The app is a single-page static site. The data contract lives entirely in `data.
 
 When the HTML/JS is built, it should read `data.json` at load time (fetch or inline) to render the workout and tests. Logged session results should be appended back to `data.json` (e.g. a `sessions[]` array) and committed via git — that is the persistence mechanism.
 
+## Session logging
+
+The UI must allow the user to record, per session:
+- Weights used for each exercise
+- Reps/sets actually completed
+- Baseline test measurements (when a test session is performed)
+
+Logged data is staged in `localStorage` so it survives a page reload. After logging, the app exports an updated `data.json` (or a patch) that the user downloads and commits, keeping the GitOps contract intact. No server-side write path is required.
+
 ## Development
 
 Open `index.html` directly in a browser — no server required unless `fetch()` is used for `data.json` (in which case run any static file server, e.g. `python3 -m http.server`).
