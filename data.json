@@ -204,7 +204,8 @@
         {
           "name": "Single-Leg Balance on BOSU (Eyes Closed)",
           "sets": 2,
-          "reps": "30s each leg",
+          "reps": null,
+          "duration_sec": 30,
           "duration_min": null,
           "rpe": null,
           "tempo": null,
@@ -226,7 +227,8 @@
         {
           "name": "Quad + Hip Flexor Stretch",
           "sets": 1,
-          "reps": "60s each leg",
+          "reps": null,
+          "duration_sec": 60,
           "duration_min": null,
           "rpe": null,
           "tempo": null,
@@ -273,11 +275,6 @@
       "key": "hebert_losier_2017",
       "citation": "Hébert-Losier K, Wessman C, Alricsson M, Svantesson U. Updated reliability and normative values for the standing heel-rise test in healthy adults. Physiotherapy. 2017;103(4):446-452.",
       "claim": "Single-leg calf raise endurance correlates with lower limb injury risk in runners; normative value for healthy adults is approximately 25 repetitions."
-    },
-    {
-      "key": "douglas_2017",
-      "citation": "Douglas J, Pearson S, Ross A, McGuigan M. Eccentric exercise: physiological characteristics and acute responses. Sports Med. 2017;47(4):663-675.",
-      "claim": "Eccentric training produces unique neuromuscular adaptations including increased fascicle length and improved force absorption capacity, directly relevant to downhill running demands."
     },
     {
       "key": "loudon_2002",

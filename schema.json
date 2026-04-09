@@ -1,0 +1,171 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Knee Armor Protocol",
+  "type": "object",
+  "required": ["program", "baseline_tests", "blocks", "evidence"],
+  "additionalProperties": false,
+  "properties": {
+    "program": {
+      "type": "object",
+      "required": ["name", "goal", "frequency", "duration_min", "retest_interval_weeks", "athlete"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "goal": { "type": "string" },
+        "frequency": { "type": "string" },
+        "duration_min": { "type": "integer", "minimum": 1 },
+        "retest_interval_weeks": { "type": "integer", "minimum": 1 },
+        "athlete": {
+          "type": "object",
+          "required": ["bodyweight_kg", "knee_history", "strength_level"],
+          "additionalProperties": false,
+          "properties": {
+            "bodyweight_kg": { "type": "number", "minimum": 0 },
+            "knee_history": { "type": "string" },
+            "strength_level": { "type": "string", "enum": ["beginner", "intermediate", "advanced"] }
+          }
+        }
+      }
+    },
+    "baseline_tests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "unit", "bilateral", "target", "instructions"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "unit": { "type": "string", "enum": ["sec", "reps", "score_0_10"] },
+          "bilateral": { "type": "boolean" },
+          "target": { "type": "number", "minimum": 0 },
+          "instructions": { "type": "string" },
+          "reference": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "time_min", "exercises"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "time_min": { "type": "integer", "minimum": 1 },
+          "exercises": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "$ref": "#/definitions/exercise" }
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "citation", "claim"],
+        "additionalProperties": false,
+        "properties": {
+          "key": { "type": "string" },
+          "citation": { "type": "string" },
+          "claim": { "type": "string" }
+        }
+      }
+    },
+    "sessions": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/session" }
+    }
+  },
+  "definitions": {
+    "exercise": {
+      "type": "object",
+      "required": ["name", "sets", "reps", "duration_min", "rpe", "tempo", "rest_sec", "notes", "reference", "progression"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "sets": { "type": "integer", "minimum": 1 },
+        "reps": { "type": ["string", "null"] },
+        "duration_min": { "type": ["number", "null"], "minimum": 0 },
+        "duration_sec": { "type": ["integer", "null"], "minimum": 0 },
+        "rpe": { "type": ["string", "null"] },
+        "tempo": {
+          "type": ["string", "null"],
+          "description": "Eccentric-pause-concentric seconds, e.g. '3-0-2'"
+        },
+        "rest_sec": { "type": ["integer", "null"], "minimum": 0 },
+        "notes": { "type": "string" },
+        "reference": { "type": ["string", "null"] },
+        "progression": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["weeks", "instruction"],
+                "additionalProperties": false,
+                "properties": {
+                  "weeks": { "type": "string" },
+                  "instruction": { "type": "string" }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "session": {
+      "type": "object",
+      "required": ["date", "baseline_results", "exercise_logs"],
+      "additionalProperties": false,
+      "properties": {
+        "date": { "type": "string", "format": "date" },
+        "notes": { "type": "string" },
+        "baseline_results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["test_id", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "test_id": { "type": "string" },
+              "value": { "type": "number", "minimum": 0 },
+              "side": { "type": "string", "enum": ["left", "right"] }
+            }
+          }
+        },
+        "exercise_logs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["exercise_name", "sets_completed"],
+            "additionalProperties": false,
+            "properties": {
+              "exercise_name": { "type": "string" },
+              "sets_completed": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "reps": { "type": ["integer", "null"], "minimum": 0 },
+                    "weight_kg": { "type": ["number", "null"], "minimum": 0 },
+                    "duration_sec": { "type": ["integer", "null"], "minimum": 0 },
+                    "side": { "type": ["string", "null"], "enum": ["left", "right", null] },
+                    "rpe_actual": { "type": ["number", "null"], "minimum": 0, "maximum": 10 }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
