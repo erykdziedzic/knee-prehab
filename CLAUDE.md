@@ -1,0 +1,29 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+# Ultra minimalistic knee-prehab tracker
+
+## Project constraints
+
+- **No build step** — plain HTML, CSS, and vanilla JS only. No bundlers, no frameworks.
+- **No dependencies** — always ask the user before introducing any external library or CDN import.
+- **GitOps** — all data lives in `data.json`, committed to the repo. No backend, no database.
+- **Mobile-first** — UI must be fully usable on a phone (touch targets, viewport, no hover-only interactions).
+
+## Architecture
+
+The app is a single-page static site. The data contract lives entirely in `data.json`:
+
+- `program` — athlete metadata and session parameters
+- `baseline_tests` — periodic assessment tests (with `bilateral` flag for left/right tracking)
+- `blocks[]` → `exercises[]` — ordered workout structure the UI renders
+- `evidence` — reference citations keyed from exercises (display-only)
+
+When the HTML/JS is built, it should read `data.json` at load time (fetch or inline) to render the workout and tests. Logged session results should be appended back to `data.json` (e.g. a `sessions[]` array) and committed via git — that is the persistence mechanism.
+
+## Development
+
+Open `index.html` directly in a browser — no server required unless `fetch()` is used for `data.json` (in which case run any static file server, e.g. `python3 -m http.server`).
+
+There are no tests, linters, or build commands.

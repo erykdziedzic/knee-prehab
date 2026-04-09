@@ -1,0 +1,10 @@
+#!/bin/sh
+# Enforce Conventional Commits: type(scope)?: description
+MSG=$(head -1 "$1")
+PATTERN='^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert)(\(.+\))?: .{1,}'
+if ! echo "$MSG" | grep -qE "$PATTERN"; then
+  echo "bad commit message: '$MSG'"
+  echo "expected: type(scope)?: description"
+  echo "types: feat fix docs style refactor perf test chore build ci revert"
+  exit 1
+fi
