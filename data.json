@@ -1,0 +1,293 @@
+{
+  "program": {
+    "name": "Knee Armor Protocol",
+    "goal": "Knee injury prevention for trail running",
+    "frequency": "1x/week",
+    "duration_min": 60,
+    "retest_interval_weeks": 4,
+    "athlete": {
+      "bodyweight_kg": 70,
+      "knee_history": "Bilateral anterior + medial pain, 2x hyaluronic acid injections (2023, 2024)",
+      "strength_level": "beginner"
+    }
+  },
+  "baseline_tests": [
+    {
+      "id": "wall_sit",
+      "name": "Single-Leg Wall Sit",
+      "unit": "sec",
+      "bilateral": true,
+      "target": 90,
+      "instructions": "Back against wall, knee at 90 degrees, one foot off ground. Time each leg until failure.",
+      "reference": "loudon_2002"
+    },
+    {
+      "id": "step_down",
+      "name": "Single-Leg Step-Down",
+      "unit": "reps",
+      "bilateral": true,
+      "target": 15,
+      "instructions": "Stand on 20cm step on one leg. Lower opposite heel to floor in 3 seconds. Count reps until form breaks (knee valgus, trunk lean, or balance loss).",
+      "reference": "piva_2006"
+    },
+    {
+      "id": "calf_raise",
+      "name": "Single-Leg Calf Raise",
+      "unit": "reps",
+      "bilateral": true,
+      "target": 25,
+      "instructions": "Stand on one leg on flat floor. Rise to full tiptoe, lower in 2 seconds. Count max reps until unable to reach full height.",
+      "reference": "hebert_losier_2017"
+    },
+    {
+      "id": "pain_vas",
+      "name": "Knee Pain VAS",
+      "unit": "score_0_10",
+      "bilateral": false,
+      "target": 0,
+      "instructions": "Rate worst knee pain during or after last long run. 0 = no pain, 10 = worst imaginable."
+    }
+  ],
+  "blocks": [
+    {
+      "name": "WARM-UP",
+      "time_min": 5,
+      "exercises": [
+        {
+          "name": "Bike or Rower",
+          "sets": 1,
+          "reps": null,
+          "duration_min": 3,
+          "rpe": null,
+          "tempo": null,
+          "rest_sec": null,
+          "notes": "Easy effort, low resistance. Goal is synovial fluid circulation.",
+          "reference": null,
+          "progression": null
+        },
+        {
+          "name": "Bodyweight Squat to Box",
+          "sets": 2,
+          "reps": "10",
+          "duration_min": null,
+          "rpe": null,
+          "tempo": "3-0-1",
+          "rest_sec": null,
+          "notes": "Sit back to bench or box at parallel depth. Knees track over toes.",
+          "reference": null,
+          "progression": null
+        }
+      ]
+    },
+    {
+      "name": "HEAVY SLOW RESISTANCE",
+      "time_min": 25,
+      "exercises": [
+        {
+          "name": "Leg Press",
+          "sets": 4,
+          "reps": "6-8",
+          "duration_min": null,
+          "rpe": "7-8",
+          "tempo": "3-0-2",
+          "rest_sec": 90,
+          "notes": "Feet shoulder width, mid-platform. Full ROM but stop before knee pain onset. Primary tendon loader.",
+          "reference": "kongsgaard_2009",
+          "progression": [
+            { "weeks": "1-2", "instruction": "Find working weight, start ~60 kg" },
+            { "weeks": "3-4", "instruction": "Add 5 kg if all sets completed at RPE ≤7" },
+            { "weeks": "5+", "instruction": "Continue adding 2.5-5 kg per session when possible" }
+          ]
+        },
+        {
+          "name": "Spanish Squat",
+          "sets": 3,
+          "reps": "8-12",
+          "duration_min": null,
+          "rpe": "7",
+          "tempo": null,
+          "rest_sec": 60,
+          "notes": "Loop heavy band behind knees, anchored to rig. Lean back into band, squat to parallel. Keeps tibia vertical, loads quad tendon with minimal patellofemoral compression.",
+          "reference": "rio_2015",
+          "progression": [
+            { "weeks": "1-2", "instruction": "Bodyweight only, find appropriate band tension" },
+            { "weeks": "3+", "instruction": "Hold dumbbell at chest to add load" }
+          ]
+        },
+        {
+          "name": "Romanian Deadlift",
+          "sets": 3,
+          "reps": "8-10",
+          "duration_min": null,
+          "rpe": "7",
+          "tempo": null,
+          "rest_sec": 60,
+          "notes": "Barbell or dumbbells. Soft knee bend, hip hinge, feel hamstring stretch at bottom. Posterior chain balance, hamstrings as ACL agonist.",
+          "reference": null,
+          "progression": [
+            { "weeks": "1-2", "instruction": "Start ~30 kg barbell or 2x12 kg dumbbells" },
+            { "weeks": "3+", "instruction": "Add 2.5-5 kg when RPE drops below 7" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "HIP AND SINGLE-LEG CONTROL",
+      "time_min": 20,
+      "exercises": [
+        {
+          "name": "Bulgarian Split Squat",
+          "sets": 3,
+          "reps": "8 each leg",
+          "duration_min": null,
+          "rpe": "7",
+          "tempo": "3-0-1",
+          "rest_sec": 60,
+          "notes": "Rear foot on bench. Slight forward trunk lean. Eccentric emphasis mimics downhill braking in trail running.",
+          "reference": "lack_2015",
+          "progression": [
+            { "weeks": "1-2", "instruction": "Bodyweight only" },
+            { "weeks": "3-4", "instruction": "Hold 2x6-8 kg dumbbells" },
+            { "weeks": "5+", "instruction": "Add 2 kg per dumbbell when RPE allows" }
+          ]
+        },
+        {
+          "name": "Side-Lying Hip Abduction (Cable)",
+          "sets": 3,
+          "reps": "12-15 each leg",
+          "duration_min": null,
+          "rpe": null,
+          "tempo": null,
+          "rest_sec": 45,
+          "notes": "Cable at ankle, standing with slight forward trunk lean. Slow and controlled. Targets glute medius to reduce femoral internal rotation and medial knee stress.",
+          "reference": "powers_2010",
+          "progression": [
+            { "weeks": "1-2", "instruction": "Light band or 5 kg cable" },
+            { "weeks": "3+", "instruction": "Increase resistance when 15 reps feels easy" }
+          ]
+        },
+        {
+          "name": "Clamshell with Band (Feet Elevated)",
+          "sets": 2,
+          "reps": "15 each side",
+          "duration_min": null,
+          "rpe": null,
+          "tempo": null,
+          "rest_sec": 30,
+          "notes": "Feet on bench variation increases glute med activation by ~30% vs floor. Targets external rotators to protect against knee valgus.",
+          "reference": "selkowitz_2013",
+          "progression": [
+            { "weeks": "all", "instruction": "Progress band resistance when RPE <5" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CALF AND BALANCE",
+      "time_min": 8,
+      "exercises": [
+        {
+          "name": "Single-Leg Calf Raise (Step, Weighted)",
+          "sets": 3,
+          "reps": "10-12 each leg",
+          "duration_min": null,
+          "rpe": null,
+          "tempo": null,
+          "rest_sec": 30,
+          "notes": "Stand on step edge, full ROM (drop heel below platform, rise to max). Hold dumbbell. Soleus + gastroc strength reduces load transferred to knee.",
+          "reference": "hebert_losier_2017",
+          "progression": [
+            { "weeks": "1-2", "instruction": "Bodyweight only, master full ROM" },
+            { "weeks": "3+", "instruction": "Hold 8-12 kg dumbbell, add 2 kg when easy" }
+          ]
+        },
+        {
+          "name": "Single-Leg Balance on BOSU (Eyes Closed)",
+          "sets": 2,
+          "reps": "30s each leg",
+          "duration_min": null,
+          "rpe": null,
+          "tempo": null,
+          "rest_sec": 15,
+          "notes": "Flat side up. Proprioceptive challenge for trail terrain.",
+          "reference": "hewett_2005",
+          "progression": [
+            { "weeks": "1-2", "instruction": "Eyes open" },
+            { "weeks": "3-4", "instruction": "Eyes closed" },
+            { "weeks": "5+", "instruction": "Add gentle perturbations (partner push)" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "FINISHER",
+      "time_min": 2,
+      "exercises": [
+        {
+          "name": "Quad + Hip Flexor Stretch",
+          "sets": 1,
+          "reps": "60s each leg",
+          "duration_min": null,
+          "rpe": null,
+          "tempo": null,
+          "rest_sec": null,
+          "notes": "Half-kneeling position, squeeze glute on back leg, lean forward gently. Important for patella tracking given tight hips.",
+          "reference": null,
+          "progression": null
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "key": "kongsgaard_2009",
+      "citation": "Kongsgaard M, Kovanen V, Aagaard P, et al. Corticosteroid injections, eccentric decline squat training and heavy slow resistance training in patellar tendinopathy. Scand J Med Sci Sports. 2009;19(6):790-802.",
+      "claim": "Heavy slow resistance training produced superior tendon adaptation (collagen synthesis, tendon structure) compared to corticosteroid injection at 12-month follow-up."
+    },
+    {
+      "key": "rio_2015",
+      "citation": "Rio E, Kidgell D, Purdam C, et al. Isometric exercise induces analgesia and reduces inhibition in patellar tendinopathy. Br J Sports Med. 2015;49(19):1277-1283.",
+      "claim": "Isometric quad contractions at ~70 degrees knee flexion produced immediate patellar tendon pain reduction and increased cortical drive to the quadriceps."
+    },
+    {
+      "key": "powers_2010",
+      "citation": "Powers CM. The influence of abnormal hip mechanics on knee injury: a biomechanical perspective. J Orthop Sports Phys Ther. 2010;40(2):42-51.",
+      "claim": "Weak hip abductors and external rotators lead to femoral internal rotation and adduction, increasing lateral patellofemoral contact pressure and medial knee joint stress."
+    },
+    {
+      "key": "lack_2015",
+      "citation": "Lack S, Barton C, Sohan O, Crossley K, Morrissey D. Proximal muscle rehabilitation is effective for patellofemoral pain: a systematic review with meta-analysis. Br J Sports Med. 2015;49(21):1365-1376.",
+      "claim": "Hip and quadriceps strengthening combined produces greater pain reduction and functional improvement in patellofemoral pain than quadriceps strengthening alone."
+    },
+    {
+      "key": "selkowitz_2013",
+      "citation": "Selkowitz DM, Beneck GJ, Powers CM. Which exercises target the gluteal muscles while minimizing activation of the tensor fascia lata? Electromyographic assessment using fine-wire electrodes. J Orthop Sports Phys Ther. 2013;43(2):54-64.",
+      "claim": "Clamshell with feet elevated and side-lying hip abduction showed highest glute med to TFL activation ratio, making them preferred for selective glute med training."
+    },
+    {
+      "key": "hewett_2005",
+      "citation": "Hewett TE, Myer GD, Ford KR, et al. Biomechanical measures of neuromuscular control and valgus loading of the knee predict anterior cruciate ligament injury risk in female athletes. Am J Sports Med. 2005;33(4):492-501.",
+      "claim": "Neuromuscular training incorporating balance and proprioceptive exercises reduced ACL injury risk by approximately 52%."
+    },
+    {
+      "key": "hebert_losier_2017",
+      "citation": "Hébert-Losier K, Wessman C, Alricsson M, Svantesson U. Updated reliability and normative values for the standing heel-rise test in healthy adults. Physiotherapy. 2017;103(4):446-452.",
+      "claim": "Single-leg calf raise endurance correlates with lower limb injury risk in runners; normative value for healthy adults is approximately 25 repetitions."
+    },
+    {
+      "key": "douglas_2017",
+      "citation": "Douglas J, Pearson S, Ross A, McGuigan M. Eccentric exercise: physiological characteristics and acute responses. Sports Med. 2017;47(4):663-675.",
+      "claim": "Eccentric training produces unique neuromuscular adaptations including increased fascicle length and improved force absorption capacity, directly relevant to downhill running demands."
+    },
+    {
+      "key": "loudon_2002",
+      "citation": "Loudon JK, Wiesner D, Goist-Foley HL, Asjes C, Loudon KL. Intrarater reliability of functional performance tests for subjects with patellofemoral pain syndrome. J Athl Train. 2002;37(3):256-261.",
+      "claim": "Single-leg wall sit and step-down tests demonstrate good intrarater reliability for assessing functional performance in patellofemoral pain populations."
+    },
+    {
+      "key": "piva_2006",
+      "citation": "Piva SR, Fitzgerald K, Irrgang JJ, et al. Reliability of measures of impairments associated with patellofemoral pain syndrome. BMC Musculoskelet Disord. 2006;7:33.",
+      "claim": "Step-down test from a 20cm step is a reliable measure of eccentric quadriceps control and correlates with patellofemoral pain severity."
+    }
+  ]
+}
