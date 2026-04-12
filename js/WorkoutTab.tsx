@@ -7,6 +7,9 @@ import type { AppData, Exercise, Block } from './types';
 const TIERS = ['1-2', '3-4', '5+'] as const;
 const TIER_LABELS: Record<string, string> = { '1-2': 'Wks 1–2', '3-4': 'Wks 3–4', '5+': 'Wks 5+' };
 
+const inputCls = 'h-12 bg-surface-raised border border-app-border rounded-lg text-[1.1rem] px-3 w-full appearance-none focus:outline-none focus:border-accent';
+const setInputCls = 'h-11 bg-surface-raised border border-app-border rounded-lg text-base px-3 w-full appearance-none focus:outline-none focus:border-accent';
+
 interface WorkoutTabProps {
   data: AppData;
   activeTier: string;
@@ -19,26 +22,30 @@ export default function WorkoutTab({ data, activeTier, onTierChange, onFinish }:
 
   return (
     <>
-      <div id="tier-selector">
-        <span>Week:</span>
+      <div className="sticky top-0 z-20 bg-app-bg border-b border-app-border py-2.5 px-4 flex items-center gap-2 overflow-x-auto scrollbar-hide">
+        <span className="text-muted text-xs whitespace-nowrap shrink-0">Week:</span>
         {TIERS.map(tier => (
           <button
             key={tier}
             type="button"
-            className={'tier-btn' + (activeTier === tier ? ' active' : '')}
+            className={`px-3.5 py-1.5 rounded-full border text-xs whitespace-nowrap shrink-0 active:opacity-80 ${activeTier === tier ? 'bg-accent text-black border-accent font-semibold' : 'border-app-border bg-transparent text-muted'}`}
             onClick={() => onTierChange(tier)}
           >
             {TIER_LABELS[tier]}
           </button>
         ))}
       </div>
-      <div id="blocks-container">
+      <div className="pb-2">
         {data.blocks.map(block => (
           <BlockCard key={block.name} block={block} tier={activeTier} />
         ))}
       </div>
-      <div className="action-bar">
-        <button type="button" className="btn-primary" onClick={onFinish}>
+      <div className="p-4">
+        <button
+          type="button"
+          className="block w-full h-[52px] bg-accent text-black border-none rounded-xl text-base font-bold tracking-wide active:opacity-85"
+          onClick={onFinish}
+        >
           {isEditing ? 'Update & Export Session' : 'Finish & Export Session'}
         </button>
       </div>
@@ -48,12 +55,12 @@ export default function WorkoutTab({ data, activeTier, onTierChange, onFinish }:
 
 function BlockCard({ block, tier }: { block: Block; tier: string }) {
   return (
-    <section className="block-card">
-      <div className="block-title">
+    <section className="mx-4 mt-4 bg-surface rounded-xl overflow-hidden border border-app-border">
+      <div className="px-4 py-3 text-xs tracking-widest uppercase text-accent border-b border-app-border flex justify-between items-center">
         <span>{block.name}</span>
-        <span className="block-time">{block.time_min} min</span>
+        <span className="text-[0.7rem] text-muted normal-case tracking-normal">{block.time_min} min</span>
       </div>
-      <div className="exercises-list">
+      <div>
         {block.exercises.map(ex => (
           <ExerciseRow key={ex.name} ex={ex} tier={tier} />
         ))}
@@ -70,28 +77,29 @@ function ExerciseRow({ ex, tier }: { ex: Exercise; tier: string }) {
   const tip = getProgressionTip(ex, tier);
 
   return (
-    <div className="exercise-row">
-      <div className="exercise-header">
-        <span className="exercise-name">{ex.name}</span>
-        <span className="exercise-meta">{buildMeta(ex)}</span>
+    <div className="px-4 py-3.5 border-b border-app-border last:border-b-0">
+      <div className="flex flex-col gap-0.5">
+        <span className="font-semibold text-base">{ex.name}</span>
+        <span className="text-xs text-muted">{buildMeta(ex)}</span>
         <button
           type="button"
-          className="notes-toggle"
+          className="self-start mt-2 px-3 py-1 text-xs border border-app-border rounded bg-transparent text-muted active:bg-surface-raised"
           aria-expanded={open}
           onClick={() => setOpen(o => !o)}
         >Info</button>
       </div>
       {open && (
-        <div className="notes-panel">
+        <div className="mt-2.5 p-3 bg-surface-raised rounded-lg text-sm text-muted leading-relaxed">
           {ex.notes && <p>{ex.notes}</p>}
-          {tip && <p className="progression-tip">Wks {tier}: {tip}</p>}
+          {tip && <p className="mt-2.5 pt-2.5 border-t border-app-border text-accent italic text-xs">Wks {tier}: {tip}</p>}
         </div>
       )}
-      <div className="log-inputs">
+      <div className="mt-3">
         {type === 'duration' ? (
-          <label className="checkbox-label">
+          <label className="flex items-center gap-3.5 py-1.5 text-base active:opacity-75 cursor-pointer">
             <input
               type="checkbox"
+              className="w-7 h-7 shrink-0 accent-accent cursor-pointer"
               checked={!!(d?.completed)}
               onChange={e => dispatch(setExerciseField({ name: ex.name, field: 'completed', value: e.target.checked }))}
             />
@@ -99,25 +107,26 @@ function ExerciseRow({ ex, tier }: { ex: Exercise; tier: string }) {
           </label>
         ) : (
           <>
-            <label className="weight-label">
-              <span>Weight (kg)</span>
+            <label className="flex flex-col gap-1 mb-2.5">
+              <span className="text-xs text-muted uppercase tracking-wide">Weight (kg)</span>
               <input
                 type="number"
                 inputMode="decimal"
                 min="0"
                 step="0.5"
                 placeholder="0"
+                className={inputCls}
                 value={d?.weight_kg ?? ''}
                 onChange={e => dispatch(setExerciseField({ name: ex.name, field: 'weight_kg', value: e.target.value }))}
               />
             </label>
-            <table className="sets-table">
+            <table className="w-full text-sm">
               <thead>
                 <tr>
-                  <th>Set</th>
+                  <th className="text-muted font-medium pb-1.5 pt-1 text-left text-xs uppercase tracking-widest">Set</th>
                   {type === 'bilateral'
-                    ? <><th></th><th>Reps</th></>
-                    : <><th>Reps</th><th>RPE</th></>
+                    ? <><th></th><th className="text-muted font-medium pb-1.5 pt-1 text-left text-xs uppercase tracking-widest">Reps</th></>
+                    : <><th className="text-muted font-medium pb-1.5 pt-1 text-left text-xs uppercase tracking-widest">Reps</th><th className="text-muted font-medium pb-1.5 pt-1 text-left text-xs uppercase tracking-widest">RPE</th></>
                   }
                 </tr>
               </thead>
@@ -126,27 +135,29 @@ function ExerciseRow({ ex, tier }: { ex: Exercise; tier: string }) {
                   type === 'bilateral' ? (
                     <Fragment key={i}>
                       <tr>
-                        <td className="set-num" rowSpan={2}>{i + 1}</td>
-                        <td className="side-label">L</td>
-                        <td>
+                        <td className="text-muted text-sm pr-2 whitespace-nowrap align-middle" rowSpan={2}>{i + 1}</td>
+                        <td className="text-xs text-muted uppercase tracking-wide pr-1.5 whitespace-nowrap align-middle py-0.5">L</td>
+                        <td className="py-0.5 px-1 align-middle">
                           <input
                             type="number"
                             inputMode="numeric"
                             min="0"
                             placeholder={targetReps(ex.reps)}
+                            className={setInputCls}
                             value={d?.sets?.[i]?.left_reps ?? ''}
                             onChange={e => dispatch(setExerciseSetField({ name: ex.name, setIndex: i, field: 'left_reps', value: e.target.value }))}
                           />
                         </td>
                       </tr>
                       <tr>
-                        <td className="side-label">R</td>
-                        <td>
+                        <td className="text-xs text-muted uppercase tracking-wide pr-1.5 whitespace-nowrap align-middle py-0.5">R</td>
+                        <td className="py-0.5 px-1 align-middle">
                           <input
                             type="number"
                             inputMode="numeric"
                             min="0"
                             placeholder={targetReps(ex.reps)}
+                            className={setInputCls}
                             value={d?.sets?.[i]?.right_reps ?? ''}
                             onChange={e => dispatch(setExerciseSetField({ name: ex.name, setIndex: i, field: 'right_reps', value: e.target.value }))}
                           />
@@ -155,18 +166,19 @@ function ExerciseRow({ ex, tier }: { ex: Exercise; tier: string }) {
                     </Fragment>
                   ) : (
                     <tr key={i}>
-                      <td className="set-num">{i + 1}</td>
-                      <td>
+                      <td className="text-muted text-sm pr-2 whitespace-nowrap align-middle py-0.5">{i + 1}</td>
+                      <td className="py-0.5 px-1 align-middle">
                         <input
                           type="number"
                           inputMode="numeric"
                           min="0"
                           placeholder={targetReps(ex.reps)}
+                          className={setInputCls}
                           value={d?.sets?.[i]?.reps ?? ''}
                           onChange={e => dispatch(setExerciseSetField({ name: ex.name, setIndex: i, field: 'reps', value: e.target.value }))}
                         />
                       </td>
-                      <td>
+                      <td className="py-0.5 px-1 align-middle">
                         <input
                           type="number"
                           inputMode="decimal"
@@ -174,6 +186,7 @@ function ExerciseRow({ ex, tier }: { ex: Exercise; tier: string }) {
                           max="10"
                           step="0.5"
                           placeholder="–"
+                          className={setInputCls}
                           value={d?.sets?.[i]?.rpe ?? ''}
                           onChange={e => dispatch(setExerciseSetField({ name: ex.name, setIndex: i, field: 'rpe', value: e.target.value }))}
                         />

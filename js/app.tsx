@@ -1,3 +1,4 @@
+import '../index.css';
 import { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider, useSelector, useDispatch } from 'react-redux';
@@ -68,14 +69,22 @@ function App() {
   return (
     <>
       {storedDraft && (
-        <div id="draft-banner">
-          <p>You have an unfinished session. Continue?</p>
-          <button id="btn-discard-draft" type="button" onClick={handleDiscard}>Start Fresh</button>
-          <button id="btn-restore-draft" type="button" onClick={handleContinue}>Continue</button>
+        <div className="mx-4 my-3 p-4 bg-accent/15 border border-accent rounded-xl flex items-center gap-2.5 flex-wrap">
+          <p className="flex-1 text-sm">You have an unfinished session. Continue?</p>
+          <button
+            type="button"
+            className="px-3.5 py-2 rounded-lg border border-app-border bg-transparent text-sm"
+            onClick={handleDiscard}
+          >Start Fresh</button>
+          <button
+            type="button"
+            className="px-3.5 py-2 rounded-lg bg-accent text-black border border-accent font-semibold text-sm"
+            onClick={handleContinue}
+          >Continue</button>
         </div>
       )}
-      <main id="app">
-        <section id="tab-workout" className={'tab-panel' + (activeTab === 'workout' ? ' active' : '')}>
+      <main>
+        <section className={activeTab === 'workout' ? 'block' : 'hidden'}>
           <WorkoutTab
             data={data}
             activeTier={activeTier}
@@ -83,13 +92,13 @@ function App() {
             onFinish={handleFinish}
           />
         </section>
-        <section id="tab-assessment" className={'tab-panel' + (activeTab === 'assessment' ? ' active' : '')}>
+        <section className={activeTab === 'assessment' ? 'block' : 'hidden'}>
           <AssessmentTab
             tests={data.baseline_tests}
             onSaveAssessment={() => setActiveTab('workout')}
           />
         </section>
-        <section id="tab-history" className={'tab-panel' + (activeTab === 'history' ? ' active' : '')}>
+        <section className={activeTab === 'history' ? 'block' : 'hidden'}>
           <HistoryTab
             sessions={data.sessions}
             tests={data.baseline_tests}
@@ -97,12 +106,15 @@ function App() {
           />
         </section>
       </main>
-      <nav id="tab-bar">
+      <nav
+        className="fixed bottom-0 left-0 right-0 flex bg-surface border-t border-app-border z-50"
+        style={{ height: 'calc(60px + env(safe-area-inset-bottom, 0px))', paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      >
         {[['workout', 'Workout'], ['assessment', 'Assessment'], ['history', 'History']].map(([tab, label]) => (
           <button
             key={tab}
             type="button"
-            className={'tab-btn' + (activeTab === tab ? ' active' : '')}
+            className={`flex-1 flex flex-col items-center justify-center min-h-11 border-none bg-transparent text-xs font-medium tracking-wide px-2 active:opacity-70 ${activeTab === tab ? 'text-accent' : 'text-muted'}`}
             onClick={() => setActiveTab(tab!)}
           >{label}</button>
         ))}
