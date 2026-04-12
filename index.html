@@ -10,55 +10,10 @@
 </head>
 
 <body>
-
   <div id="loading-overlay">Loading…</div>
   <div id="error-banner" hidden></div>
-
-  <div id="draft-banner" hidden>
-    <p>You have an unfinished session. Continue?</p>
-    <button id="btn-discard-draft">Start Fresh</button>
-    <button id="btn-restore-draft">Continue</button>
-  </div>
-
-  <main id="app" hidden>
-
-    <section id="tab-workout" class="tab-panel active">
-      <div id="tier-selector">
-        <span>Week:</span>
-        <button class="tier-btn active" data-tier="1-2">Wks 1–2</button>
-        <button class="tier-btn" data-tier="3-4">Wks 3–4</button>
-        <button class="tier-btn" data-tier="5+">Wks 5+</button>
-      </div>
-      <div id="blocks-container"></div>
-      <div class="action-bar">
-        <button id="btn-finish" class="btn-primary">Finish &amp; Export Session</button>
-      </div>
-    </section>
-
-    <section id="tab-assessment" class="tab-panel" hidden>
-      <p class="tab-intro">Run this assessment every 4 weeks to track progress. Results will be included in your next
-        exported session.</p>
-      <div id="tests-container"></div>
-      <div class="action-bar">
-        <button id="btn-save-assessment" class="btn-secondary">Save Assessment</button>
-      </div>
-    </section>
-
-    <section id="tab-history" class="tab-panel" hidden>
-      <div id="history-container">
-        <p class="empty-state">No sessions logged yet.</p>
-      </div>
-    </section>
-
-  </main>
-
-  <nav id="tab-bar" hidden>
-    <button class="tab-btn active" data-tab="workout">Workout</button>
-    <button class="tab-btn" data-tab="assessment">Assessment</button>
-    <button class="tab-btn" data-tab="history">History</button>
-  </nav>
-
-  <script src="app.js"></script>
+  <div id="root"></div>
+  <script type="module" src="js/app.jsx"></script>
 </body>
 
 </html>
