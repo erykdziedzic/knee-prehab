@@ -17,7 +17,7 @@ function App() {
   const draft = useSelector((state: RootState) => state);
 
   useEffect(() => {
-    fetch('./data.json')
+    fetch(import.meta.env.BASE_URL + 'data.json')
       .then(res => { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
       .then((d: AppData) => {
         setData(d);
