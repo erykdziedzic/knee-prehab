@@ -1,34 +1,35 @@
 import { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider, useSelector, useDispatch } from 'react-redux';
-import { store, DRAFT_KEY, restoreDraft, clear, loadSession } from './store.js';
-import { buildSessionObject, triggerDownload } from './session.js';
-import WorkoutTab from './WorkoutTab.jsx';
-import AssessmentTab from './AssessmentTab.jsx';
-import HistoryTab from './HistoryTab.jsx';
+import { store, DRAFT_KEY, restoreDraft, clear, loadSession, type RootState } from './store';
+import { buildSessionObject, triggerDownload } from './session';
+import WorkoutTab from './WorkoutTab';
+import AssessmentTab from './AssessmentTab';
+import HistoryTab from './HistoryTab';
+import type { AppData, DraftState, Session } from './types';
 
 function App() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<AppData | null>(null);
   const [activeTab, setActiveTab] = useState('workout');
   const [activeTier, setActiveTier] = useState('1-2');
-  const [storedDraft, setStoredDraft] = useState(null);
+  const [storedDraft, setStoredDraft] = useState<DraftState | null>(null);
   const dispatch = useDispatch();
-  const draft = useSelector(state => state);
+  const draft = useSelector((state: RootState) => state);
 
   useEffect(() => {
     fetch('./data.json')
       .then(res => { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
-      .then(d => {
+      .then((d: AppData) => {
         setData(d);
         const raw = localStorage.getItem(DRAFT_KEY);
         if (raw) {
-          try { setStoredDraft(JSON.parse(raw)); } catch (_) { localStorage.removeItem(DRAFT_KEY); }
+          try { setStoredDraft(JSON.parse(raw) as DraftState); } catch (_) { localStorage.removeItem(DRAFT_KEY); }
         }
-        document.getElementById('loading-overlay').hidden = true;
+        (document.getElementById('loading-overlay') as HTMLElement).hidden = true;
       })
       .catch(() => {
-        document.getElementById('loading-overlay').hidden = true;
-        const banner = document.getElementById('error-banner');
+        (document.getElementById('loading-overlay') as HTMLElement).hidden = true;
+        const banner = document.getElementById('error-banner') as HTMLElement;
         banner.hidden = false;
         banner.textContent = 'Failed to load data.json.';
       });
@@ -37,7 +38,7 @@ function App() {
   if (!data) return null;
 
   const handleContinue = () => {
-    dispatch(restoreDraft(storedDraft));
+    dispatch(restoreDraft(storedDraft!));
     setStoredDraft(null);
   };
 
@@ -48,7 +49,7 @@ function App() {
 
   const handleFinish = () => {
     const session = buildSessionObject(data, draft);
-    const updated = JSON.parse(JSON.stringify(data));
+    const updated: AppData = JSON.parse(JSON.stringify(data));
     if (!updated.sessions) updated.sessions = [];
     if (draft.editingSessionIndex !== null) {
       updated.sessions[draft.editingSessionIndex] = session;
@@ -59,7 +60,7 @@ function App() {
     dispatch(clear());
   };
 
-  const handleEditSession = (session, index) => {
+  const handleEditSession = (session: Session, index: number) => {
     dispatch(loadSession({ session, index, blocks: data.blocks }));
     setActiveTab('workout');
   };
@@ -102,7 +103,7 @@ function App() {
             key={tab}
             type="button"
             className={'tab-btn' + (activeTab === tab ? ' active' : '')}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => setActiveTab(tab!)}
           >{label}</button>
         ))}
       </nav>
@@ -110,7 +111,7 @@ function App() {
   );
 }
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <App />
   </Provider>

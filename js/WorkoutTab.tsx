@@ -1,13 +1,21 @@
 import { useState, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setExerciseField, setExerciseSetField } from './store.js';
-import { exType, durationSec, formatDuration, buildMeta, getProgressionTip, targetReps } from './utils.js';
+import { setExerciseField, setExerciseSetField, type RootState } from './store';
+import { exType, durationSec, formatDuration, buildMeta, getProgressionTip, targetReps } from './utils';
+import type { AppData, Exercise, Block } from './types';
 
-const TIERS = ['1-2', '3-4', '5+'];
-const TIER_LABELS = { '1-2': 'Wks 1–2', '3-4': 'Wks 3–4', '5+': 'Wks 5+' };
+const TIERS = ['1-2', '3-4', '5+'] as const;
+const TIER_LABELS: Record<string, string> = { '1-2': 'Wks 1–2', '3-4': 'Wks 3–4', '5+': 'Wks 5+' };
 
-export default function WorkoutTab({ data, activeTier, onTierChange, onFinish }) {
-  const isEditing = useSelector(state => state.editingSessionIndex !== null);
+interface WorkoutTabProps {
+  data: AppData;
+  activeTier: string;
+  onTierChange: (tier: string) => void;
+  onFinish: () => void;
+}
+
+export default function WorkoutTab({ data, activeTier, onTierChange, onFinish }: WorkoutTabProps) {
+  const isEditing = useSelector((state: RootState) => state.editingSessionIndex !== null);
 
   return (
     <>
@@ -38,7 +46,7 @@ export default function WorkoutTab({ data, activeTier, onTierChange, onFinish })
   );
 }
 
-function BlockCard({ block, tier }) {
+function BlockCard({ block, tier }: { block: Block; tier: string }) {
   return (
     <section className="block-card">
       <div className="block-title">
@@ -54,11 +62,11 @@ function BlockCard({ block, tier }) {
   );
 }
 
-function ExerciseRow({ ex, tier }) {
+function ExerciseRow({ ex, tier }: { ex: Exercise; tier: string }) {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const type = exType(ex);
-  const d = useSelector(state => state.exerciseInputs[ex.name]);
+  const d = useSelector((state: RootState) => state.exerciseInputs[ex.name]);
   const tip = getProgressionTip(ex, tier);
 
   return (
@@ -69,7 +77,7 @@ function ExerciseRow({ ex, tier }) {
         <button
           type="button"
           className="notes-toggle"
-          aria-expanded={String(open)}
+          aria-expanded={open}
           onClick={() => setOpen(o => !o)}
         >Info</button>
       </div>

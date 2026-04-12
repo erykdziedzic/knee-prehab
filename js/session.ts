@@ -1,7 +1,8 @@
-import { exType, durationSec } from './utils.js';
+import { exType, durationSec } from './utils';
+import type { AppData, DraftState, Session } from './types';
 
-export function buildSessionObject(data, draft) {
-  let date;
+export function buildSessionObject(data: AppData, draft: DraftState): Session {
+  let date: string;
   if (draft.editingDate) {
     date = draft.editingDate;
   } else {
@@ -11,7 +12,7 @@ export function buildSessionObject(data, draft) {
       + String(today.getDate()).padStart(2, '0');
   }
 
-  const session = { date, baseline_results: [], exercise_logs: [] };
+  const session: Session = { date, baseline_results: [], exercise_logs: [] };
 
   if (draft.assessmentRun) {
     (data.baseline_tests || []).forEach(test => {
@@ -37,7 +38,7 @@ export function buildSessionObject(data, draft) {
       const d = draft.exerciseInputs[ex.name];
       if (!d) return;
 
-      const log = { exercise_name: ex.name, sets_completed: [] };
+      const log = { exercise_name: ex.name, sets_completed: [] as Session['exercise_logs'][number]['sets_completed'] };
 
       if (type === 'duration') {
         if (d.completed) {
@@ -46,23 +47,23 @@ export function buildSessionObject(data, draft) {
           });
         }
       } else if (type === 'bilateral') {
-        const weight = d.weight_kg !== '' ? parseFloat(d.weight_kg) : null;
+        const weight = d.weight_kg !== '' ? parseFloat(d.weight_kg ?? '') : null;
         (d.sets || []).forEach(s => {
           ['left', 'right'].forEach(side => {
             const repsVal = side === 'left' ? s.left_reps : s.right_reps;
             log.sets_completed.push({
-              reps: repsVal !== '' ? parseInt(repsVal, 10) : null,
+              reps: repsVal !== '' ? parseInt(repsVal ?? '', 10) : null,
               weight_kg: weight, duration_sec: null, side, rpe_actual: null,
             });
           });
         });
       } else {
-        const weight = d.weight_kg !== '' ? parseFloat(d.weight_kg) : null;
+        const weight = d.weight_kg !== '' ? parseFloat(d.weight_kg ?? '') : null;
         (d.sets || []).forEach(s => {
           log.sets_completed.push({
-            reps: s.reps !== '' ? parseInt(s.reps, 10) : null,
+            reps: s.reps !== '' ? parseInt(s.reps ?? '', 10) : null,
             weight_kg: weight, duration_sec: null, side: null,
-            rpe_actual: s.rpe !== '' ? parseFloat(s.rpe) : null,
+            rpe_actual: s.rpe !== '' ? parseFloat(s.rpe ?? '') : null,
           });
         });
       }
@@ -74,7 +75,7 @@ export function buildSessionObject(data, draft) {
   return session;
 }
 
-export function triggerDownload(data) {
+export function triggerDownload(data: AppData): void {
   const json = JSON.stringify(data, null, 2);
   const blob = new Blob([json], { type: 'application/json' });
   const url = URL.createObjectURL(blob);

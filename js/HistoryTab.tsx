@@ -1,7 +1,14 @@
-import { formatDuration, unitShort } from './utils.js';
+import { formatDuration, unitShort } from './utils';
+import type { Session, BaselineTest } from './types';
 
-export default function HistoryTab({ sessions, tests, onEditSession }) {
-  const testMap = {};
+interface HistoryTabProps {
+  sessions: Session[] | undefined;
+  tests: BaselineTest[];
+  onEditSession: (session: Session, index: number) => void;
+}
+
+export default function HistoryTab({ sessions, tests, onEditSession }: HistoryTabProps) {
+  const testMap: Record<string, BaselineTest> = {};
   (tests || []).forEach(t => { testMap[t.id] = t; });
 
   if (!sessions || sessions.length === 0) {
@@ -26,10 +33,17 @@ export default function HistoryTab({ sessions, tests, onEditSession }) {
   );
 }
 
-function HistoryCard({ session, origIdx, testMap, onEdit }) {
+interface HistoryCardProps {
+  session: Session;
+  origIdx: number;
+  testMap: Record<string, BaselineTest>;
+  onEdit: (session: Session, index: number) => void;
+}
+
+function HistoryCard({ session, origIdx, testMap, onEdit }: HistoryCardProps) {
   const baseline = session.baseline_results || [];
 
-  const grouped = baseline.reduce((acc, r) => {
+  const grouped = baseline.reduce<Record<string, typeof baseline>>((acc, r) => {
     if (!acc[r.test_id]) acc[r.test_id] = [];
     acc[r.test_id].push(r);
     return acc;
@@ -45,12 +59,12 @@ function HistoryCard({ session, origIdx, testMap, onEdit }) {
         {(session.exercise_logs || []).map((log, i) => {
           const sets = log.sets_completed || [];
           const hasDuration = sets.some(s => s.duration_sec !== null && s.duration_sec !== undefined);
-          let detail;
+          let detail: string;
           if (hasDuration) {
             detail = formatDuration(sets[0].duration_sec) + (sets.length > 1 ? ' × ' + sets.length : '');
           } else {
             const weight = sets.length > 0 && sets[0].weight_kg ? sets[0].weight_kg + ' kg · ' : '';
-            const reps = sets.map(s => s.reps).filter(r => r !== null && r !== undefined);
+            const reps = sets.map(s => s.reps).filter((r): r is number => r !== null && r !== undefined);
             const uniqueReps = [...new Set(reps)];
             detail = weight + sets.length + ' sets · ' + (uniqueReps.length === 1 ? uniqueReps[0] : uniqueReps.join('/')) + ' reps';
           }

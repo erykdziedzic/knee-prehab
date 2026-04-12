@@ -1,9 +1,15 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setBaselineField, markAssessmentRun } from './store.js';
-import { unitLabel, unitShort } from './utils.js';
+import { setBaselineField, markAssessmentRun, type RootState } from './store';
+import { unitLabel, unitShort } from './utils';
+import type { BaselineTest } from './types';
 
-export default function AssessmentTab({ tests, onSaveAssessment }) {
+interface AssessmentTabProps {
+  tests: BaselineTest[];
+  onSaveAssessment: () => void;
+}
+
+export default function AssessmentTab({ tests, onSaveAssessment }: AssessmentTabProps) {
   const [saved, setSaved] = useState(false);
   const dispatch = useDispatch();
 
@@ -33,12 +39,12 @@ export default function AssessmentTab({ tests, onSaveAssessment }) {
   );
 }
 
-function TestCard({ test }) {
+function TestCard({ test }: { test: BaselineTest }) {
   const dispatch = useDispatch();
-  const d = useSelector(state => state.baselineInputs[test.id] || {});
+  const d = useSelector((state: RootState) => state.baselineInputs[test.id] || {});
   const isScore = test.unit === 'score_0_10';
 
-  const handleChange = (side, value) => {
+  const handleChange = (side: string, value: string) => {
     dispatch(setBaselineField({ testId: test.id, side, value }));
   };
 

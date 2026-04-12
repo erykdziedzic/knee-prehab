@@ -1,9 +1,11 @@
-import { createSlice, configureStore } from '@reduxjs/toolkit';
-import { exType } from './utils.js';
+import { createSlice, configureStore, type PayloadAction } from '@reduxjs/toolkit';
+import { exType } from './utils';
+import type { DraftState, ExerciseInput, ExerciseSetInput } from './types';
+import type { Block, Session } from './types';
 
 export const DRAFT_KEY = 'knee_prehab_draft';
 
-const initialState = {
+const initialState: DraftState = {
   assessmentRun: false,
   baselineInputs: {},
   exerciseInputs: {},
@@ -15,27 +17,31 @@ const draftSlice = createSlice({
   name: 'draft',
   initialState,
   reducers: {
-    setExerciseField(state, { payload: { name, field, value } }) {
+    setExerciseField(state, { payload }: PayloadAction<{ name: string; field: keyof ExerciseInput; value: ExerciseInput[keyof ExerciseInput] }>) {
+      const { name, field, value } = payload;
       if (!state.exerciseInputs[name]) state.exerciseInputs[name] = {};
-      state.exerciseInputs[name][field] = value;
+      (state.exerciseInputs[name] as Record<string, unknown>)[field] = value;
     },
-    setExerciseSetField(state, { payload: { name, setIndex, field, value } }) {
+    setExerciseSetField(state, { payload }: PayloadAction<{ name: string; setIndex: number; field: keyof ExerciseSetInput; value: string }>) {
+      const { name, setIndex, field, value } = payload;
       if (!state.exerciseInputs[name]) state.exerciseInputs[name] = {};
       if (!state.exerciseInputs[name].sets) state.exerciseInputs[name].sets = [];
-      const sets = state.exerciseInputs[name].sets;
+      const sets = state.exerciseInputs[name].sets!;
       while (sets.length <= setIndex) sets.push({});
       sets[setIndex][field] = value;
     },
-    setBaselineField(state, { payload: { testId, side, value } }) {
+    setBaselineField(state, { payload }: PayloadAction<{ testId: string; side: string; value: string }>) {
+      const { testId, side, value } = payload;
       if (!state.baselineInputs[testId]) state.baselineInputs[testId] = {};
       state.baselineInputs[testId][side] = value;
     },
     markAssessmentRun(state) {
       state.assessmentRun = true;
     },
-    loadSession(state, { payload: { session, index, blocks } }) {
-      const exerciseInputs = {};
-      const baselineInputs = {};
+    loadSession(state, { payload }: PayloadAction<{ session: Session; index: number; blocks: Block[] }>) {
+      const { session, index, blocks } = payload;
+      const exerciseInputs: DraftState['exerciseInputs'] = {};
+      const baselineInputs: DraftState['baselineInputs'] = {};
       let assessmentRun = false;
 
       if (session.baseline_results && session.baseline_results.length > 0) {
@@ -53,7 +59,7 @@ const draftSlice = createSlice({
       (session.exercise_logs || []).forEach(log => {
         let ex = null;
         for (const block of blocks) {
-          ex = block.exercises.find(e => e.name === log.exercise_name);
+          ex = block.exercises.find(e => e.name === log.exercise_name) ?? null;
           if (ex) break;
         }
         if (!ex) return;
@@ -65,7 +71,7 @@ const draftSlice = createSlice({
           exerciseInputs[log.exercise_name] = { completed: sets.length > 0 };
         } else if (type === 'bilateral') {
           const weight = sets.length > 0 && sets[0].weight_kg !== null ? String(sets[0].weight_kg) : '';
-          const pairedSets = [];
+          const pairedSets: ExerciseSetInput[] = [];
           for (let i = 0; i < sets.length; i += 2) {
             pairedSets.push({
               left_reps: sets[i] && sets[i].reps !== null ? String(sets[i].reps) : '',
@@ -75,7 +81,7 @@ const draftSlice = createSlice({
           exerciseInputs[log.exercise_name] = { weight_kg: weight, sets: pairedSets };
         } else {
           const weight = sets.length > 0 && sets[0].weight_kg !== null ? String(sets[0].weight_kg) : '';
-          const mappedSets = sets.map(s => ({
+          const mappedSets: ExerciseSetInput[] = sets.map(s => ({
             reps: s.reps !== null ? String(s.reps) : '',
             rpe: s.rpe_actual !== null ? String(s.rpe_actual) : '',
           }));
@@ -85,7 +91,7 @@ const draftSlice = createSlice({
 
       return { exerciseInputs, baselineInputs, assessmentRun, editingSessionIndex: index, editingDate: session.date };
     },
-    restoreDraft(state, { payload }) {
+    restoreDraft(_state, { payload }: PayloadAction<DraftState>) {
       return payload;
     },
     clear() {
@@ -97,6 +103,8 @@ const draftSlice = createSlice({
 export const { setExerciseField, setExerciseSetField, setBaselineField, markAssessmentRun, loadSession, restoreDraft, clear } = draftSlice.actions;
 
 export const store = configureStore({ reducer: draftSlice.reducer });
+
+export type RootState = ReturnType<typeof store.getState>;
 
 store.subscribe(() => {
   const draft = store.getState();
