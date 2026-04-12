@@ -344,7 +344,42 @@
   "sessions": [
     {
       "date": "2026-04-09",
-      "baseline_results": [],
+      "baseline_results": [
+        {
+          "test_id": "wall_sit",
+          "value": 35,
+          "side": "left"
+        },
+        {
+          "test_id": "wall_sit",
+          "value": 33,
+          "side": "right"
+        },
+        {
+          "test_id": "step_down",
+          "value": 13,
+          "side": "left"
+        },
+        {
+          "test_id": "step_down",
+          "value": 13,
+          "side": "right"
+        },
+        {
+          "test_id": "calf_raise",
+          "value": 15,
+          "side": "left"
+        },
+        {
+          "test_id": "calf_raise",
+          "value": 16,
+          "side": "right"
+        },
+        {
+          "test_id": "pain_vas",
+          "value": 0
+        }
+      ],
       "exercise_logs": [
         {
           "exercise_name": "Bike or Rower",
