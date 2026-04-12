@@ -1,13 +1,7 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 # Ultra minimalistic knee-prehab tracker
 
 ## Project constraints
 
-- **No build step** — plain HTML, CSS, and vanilla JS only. No bundlers, no frameworks.
-- **No dependencies** — always ask the user before introducing any external library or CDN import.
 - **GitOps** — all data lives in `data.json`, committed to the repo. No backend, no database.
 - **Mobile-first** — UI must be fully usable on a phone (touch targets, viewport, no hover-only interactions).
 
