@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setBaselineField, markAssessmentRun } from './store.js';
 import { unitLabel, unitShort } from './utils.js';
 
-export default function AssessmentTab({ tests, draft, dispatch, onSaveAssessment }) {
+export default function AssessmentTab({ tests, onSaveAssessment }) {
   const [saved, setSaved] = useState(false);
+  const dispatch = useDispatch();
 
   const handleSave = () => {
-    dispatch({ type: 'MARK_ASSESSMENT_RUN' });
+    dispatch(markAssessmentRun());
     setSaved(true);
     setTimeout(() => setSaved(false), 1500);
     onSaveAssessment();
@@ -18,7 +21,7 @@ export default function AssessmentTab({ tests, draft, dispatch, onSaveAssessment
       </p>
       <div id="tests-container">
         {(tests || []).map(test => (
-          <TestCard key={test.id} test={test} draft={draft} dispatch={dispatch} />
+          <TestCard key={test.id} test={test} />
         ))}
       </div>
       <div className="action-bar">
@@ -30,12 +33,13 @@ export default function AssessmentTab({ tests, draft, dispatch, onSaveAssessment
   );
 }
 
-function TestCard({ test, draft, dispatch }) {
-  const d = draft.baselineInputs[test.id] || {};
+function TestCard({ test }) {
+  const dispatch = useDispatch();
+  const d = useSelector(state => state.baselineInputs[test.id] || {});
   const isScore = test.unit === 'score_0_10';
 
   const handleChange = (side, value) => {
-    dispatch({ type: 'SET_BASELINE_FIELD', testId: test.id, side, value });
+    dispatch(setBaselineField({ testId: test.id, side, value }));
   };
 
   return (

@@ -1,11 +1,13 @@
 import { useState, Fragment } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setExerciseField, setExerciseSetField } from './store.js';
 import { exType, durationSec, formatDuration, buildMeta, getProgressionTip, targetReps } from './utils.js';
 
 const TIERS = ['1-2', '3-4', '5+'];
 const TIER_LABELS = { '1-2': 'Wks 1–2', '3-4': 'Wks 3–4', '5+': 'Wks 5+' };
 
-export default function WorkoutTab({ data, draft, dispatch, activeTier, onTierChange, onFinish }) {
-  const isEditing = draft.editingSessionIndex !== null;
+export default function WorkoutTab({ data, activeTier, onTierChange, onFinish }) {
+  const isEditing = useSelector(state => state.editingSessionIndex !== null);
 
   return (
     <>
@@ -24,7 +26,7 @@ export default function WorkoutTab({ data, draft, dispatch, activeTier, onTierCh
       </div>
       <div id="blocks-container">
         {data.blocks.map(block => (
-          <BlockCard key={block.name} block={block} tier={activeTier} draft={draft} dispatch={dispatch} />
+          <BlockCard key={block.name} block={block} tier={activeTier} />
         ))}
       </div>
       <div className="action-bar">
@@ -36,7 +38,7 @@ export default function WorkoutTab({ data, draft, dispatch, activeTier, onTierCh
   );
 }
 
-function BlockCard({ block, tier, draft, dispatch }) {
+function BlockCard({ block, tier }) {
   return (
     <section className="block-card">
       <div className="block-title">
@@ -45,17 +47,18 @@ function BlockCard({ block, tier, draft, dispatch }) {
       </div>
       <div className="exercises-list">
         {block.exercises.map(ex => (
-          <ExerciseRow key={ex.name} ex={ex} tier={tier} draft={draft} dispatch={dispatch} />
+          <ExerciseRow key={ex.name} ex={ex} tier={tier} />
         ))}
       </div>
     </section>
   );
 }
 
-function ExerciseRow({ ex, tier, draft, dispatch }) {
+function ExerciseRow({ ex, tier }) {
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
   const type = exType(ex);
-  const d = draft.exerciseInputs[ex.name];
+  const d = useSelector(state => state.exerciseInputs[ex.name]);
   const tip = getProgressionTip(ex, tier);
 
   return (
@@ -82,7 +85,7 @@ function ExerciseRow({ ex, tier, draft, dispatch }) {
             <input
               type="checkbox"
               checked={!!(d?.completed)}
-              onChange={e => dispatch({ type: 'SET_EXERCISE_FIELD', name: ex.name, field: 'completed', value: e.target.checked })}
+              onChange={e => dispatch(setExerciseField({ name: ex.name, field: 'completed', value: e.target.checked }))}
             />
             {' Completed' + (durationSec(ex) ? ' (' + formatDuration(durationSec(ex)) + ')' : '')}
           </label>
@@ -97,7 +100,7 @@ function ExerciseRow({ ex, tier, draft, dispatch }) {
                 step="0.5"
                 placeholder="0"
                 value={d?.weight_kg ?? ''}
-                onChange={e => dispatch({ type: 'SET_EXERCISE_FIELD', name: ex.name, field: 'weight_kg', value: e.target.value })}
+                onChange={e => dispatch(setExerciseField({ name: ex.name, field: 'weight_kg', value: e.target.value }))}
               />
             </label>
             <table className="sets-table">
@@ -124,7 +127,7 @@ function ExerciseRow({ ex, tier, draft, dispatch }) {
                             min="0"
                             placeholder={targetReps(ex.reps)}
                             value={d?.sets?.[i]?.left_reps ?? ''}
-                            onChange={e => dispatch({ type: 'SET_EXERCISE_SET_FIELD', name: ex.name, setIndex: i, field: 'left_reps', value: e.target.value })}
+                            onChange={e => dispatch(setExerciseSetField({ name: ex.name, setIndex: i, field: 'left_reps', value: e.target.value }))}
                           />
                         </td>
                       </tr>
@@ -137,7 +140,7 @@ function ExerciseRow({ ex, tier, draft, dispatch }) {
                             min="0"
                             placeholder={targetReps(ex.reps)}
                             value={d?.sets?.[i]?.right_reps ?? ''}
-                            onChange={e => dispatch({ type: 'SET_EXERCISE_SET_FIELD', name: ex.name, setIndex: i, field: 'right_reps', value: e.target.value })}
+                            onChange={e => dispatch(setExerciseSetField({ name: ex.name, setIndex: i, field: 'right_reps', value: e.target.value }))}
                           />
                         </td>
                       </tr>
@@ -152,7 +155,7 @@ function ExerciseRow({ ex, tier, draft, dispatch }) {
                           min="0"
                           placeholder={targetReps(ex.reps)}
                           value={d?.sets?.[i]?.reps ?? ''}
-                          onChange={e => dispatch({ type: 'SET_EXERCISE_SET_FIELD', name: ex.name, setIndex: i, field: 'reps', value: e.target.value })}
+                          onChange={e => dispatch(setExerciseSetField({ name: ex.name, setIndex: i, field: 'reps', value: e.target.value }))}
                         />
                       </td>
                       <td>
@@ -164,7 +167,7 @@ function ExerciseRow({ ex, tier, draft, dispatch }) {
                           step="0.5"
                           placeholder="–"
                           value={d?.sets?.[i]?.rpe ?? ''}
-                          onChange={e => dispatch({ type: 'SET_EXERCISE_SET_FIELD', name: ex.name, setIndex: i, field: 'rpe', value: e.target.value })}
+                          onChange={e => dispatch(setExerciseSetField({ name: ex.name, setIndex: i, field: 'rpe', value: e.target.value }))}
                         />
                       </td>
                     </tr>

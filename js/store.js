@@ -1,9 +1,9 @@
-import { useReducer, useEffect, useCallback } from 'react';
+import { createSlice, configureStore } from '@reduxjs/toolkit';
 import { exType } from './utils.js';
 
 export const DRAFT_KEY = 'knee_prehab_draft';
 
-export const initialDraft = {
+const initialState = {
   assessmentRun: false,
   baselineInputs: {},
   exerciseInputs: {},
@@ -11,30 +11,29 @@ export const initialDraft = {
   editingDate: null,
 };
 
-function draftReducer(state, action) {
-  switch (action.type) {
-    case 'SET_EXERCISE_FIELD': {
-      const { name, field, value } = action;
-      const prev = state.exerciseInputs[name] || {};
-      return { ...state, exerciseInputs: { ...state.exerciseInputs, [name]: { ...prev, [field]: value } } };
-    }
-    case 'SET_EXERCISE_SET_FIELD': {
-      const { name, setIndex, field, value } = action;
-      const prev = state.exerciseInputs[name] || {};
-      const sets = [...(prev.sets || [])];
+const draftSlice = createSlice({
+  name: 'draft',
+  initialState,
+  reducers: {
+    setExerciseField(state, { payload: { name, field, value } }) {
+      if (!state.exerciseInputs[name]) state.exerciseInputs[name] = {};
+      state.exerciseInputs[name][field] = value;
+    },
+    setExerciseSetField(state, { payload: { name, setIndex, field, value } }) {
+      if (!state.exerciseInputs[name]) state.exerciseInputs[name] = {};
+      if (!state.exerciseInputs[name].sets) state.exerciseInputs[name].sets = [];
+      const sets = state.exerciseInputs[name].sets;
       while (sets.length <= setIndex) sets.push({});
-      sets[setIndex] = { ...sets[setIndex], [field]: value };
-      return { ...state, exerciseInputs: { ...state.exerciseInputs, [name]: { ...prev, sets } } };
-    }
-    case 'SET_BASELINE_FIELD': {
-      const { testId, side, value } = action;
-      const prev = state.baselineInputs[testId] || {};
-      return { ...state, baselineInputs: { ...state.baselineInputs, [testId]: { ...prev, [side]: value } } };
-    }
-    case 'MARK_ASSESSMENT_RUN':
-      return { ...state, assessmentRun: true };
-    case 'LOAD_SESSION': {
-      const { session, index, blocks } = action;
+      sets[setIndex][field] = value;
+    },
+    setBaselineField(state, { payload: { testId, side, value } }) {
+      if (!state.baselineInputs[testId]) state.baselineInputs[testId] = {};
+      state.baselineInputs[testId][side] = value;
+    },
+    markAssessmentRun(state) {
+      state.assessmentRun = true;
+    },
+    loadSession(state, { payload: { session, index, blocks } }) {
       const exerciseInputs = {};
       const baselineInputs = {};
       let assessmentRun = false;
@@ -85,35 +84,29 @@ function draftReducer(state, action) {
       });
 
       return { exerciseInputs, baselineInputs, assessmentRun, editingSessionIndex: index, editingDate: session.date };
-    }
-    case 'RESTORE_DRAFT':
-      return action.draft;
-    case 'CLEAR':
-      return initialDraft;
-    default:
-      return state;
+    },
+    restoreDraft(state, { payload }) {
+      return payload;
+    },
+    clear() {
+      return initialState;
+    },
+  },
+});
+
+export const { setExerciseField, setExerciseSetField, setBaselineField, markAssessmentRun, loadSession, restoreDraft, clear } = draftSlice.actions;
+
+export const store = configureStore({ reducer: draftSlice.reducer });
+
+store.subscribe(() => {
+  const draft = store.getState();
+  const hasData = draft.assessmentRun ||
+    draft.editingSessionIndex !== null ||
+    Object.keys(draft.exerciseInputs).length > 0 ||
+    Object.keys(draft.baselineInputs).length > 0;
+  if (hasData) {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+  } else {
+    localStorage.removeItem(DRAFT_KEY);
   }
-}
-
-export function useDraft() {
-  const [draft, dispatch] = useReducer(draftReducer, initialDraft);
-
-  // Persist draft to localStorage whenever it has user data.
-  // CLEAR removes the item explicitly via wrappedDispatch before resetting state.
-  useEffect(() => {
-    const hasData = draft.assessmentRun ||
-      draft.editingSessionIndex !== null ||
-      Object.keys(draft.exerciseInputs).length > 0 ||
-      Object.keys(draft.baselineInputs).length > 0;
-    if (hasData) {
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-    }
-  }, [draft]);
-
-  const wrappedDispatch = useCallback((action) => {
-    if (action.type === 'CLEAR') localStorage.removeItem(DRAFT_KEY);
-    dispatch(action);
-  }, []);
-
-  return { draft, dispatch: wrappedDispatch };
-}
+});

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { useDraft, DRAFT_KEY } from './hooks.js';
+import { Provider, useSelector, useDispatch } from 'react-redux';
+import { store, DRAFT_KEY, restoreDraft, clear, loadSession } from './store.js';
 import { buildSessionObject, triggerDownload } from './session.js';
 import WorkoutTab from './WorkoutTab.jsx';
 import AssessmentTab from './AssessmentTab.jsx';
@@ -11,7 +12,8 @@ function App() {
   const [activeTab, setActiveTab] = useState('workout');
   const [activeTier, setActiveTier] = useState('1-2');
   const [storedDraft, setStoredDraft] = useState(null);
-  const { draft, dispatch } = useDraft();
+  const dispatch = useDispatch();
+  const draft = useSelector(state => state);
 
   useEffect(() => {
     fetch('./data.json')
@@ -35,12 +37,12 @@ function App() {
   if (!data) return null;
 
   const handleContinue = () => {
-    dispatch({ type: 'RESTORE_DRAFT', draft: storedDraft });
+    dispatch(restoreDraft(storedDraft));
     setStoredDraft(null);
   };
 
   const handleDiscard = () => {
-    dispatch({ type: 'CLEAR' });
+    dispatch(clear());
     setStoredDraft(null);
   };
 
@@ -54,11 +56,11 @@ function App() {
       updated.sessions.push(session);
     }
     triggerDownload(updated);
-    dispatch({ type: 'CLEAR' });
+    dispatch(clear());
   };
 
   const handleEditSession = (session, index) => {
-    dispatch({ type: 'LOAD_SESSION', session, index, blocks: data.blocks });
+    dispatch(loadSession({ session, index, blocks: data.blocks }));
     setActiveTab('workout');
   };
 
@@ -75,8 +77,6 @@ function App() {
         <section id="tab-workout" className={'tab-panel' + (activeTab === 'workout' ? ' active' : '')}>
           <WorkoutTab
             data={data}
-            draft={draft}
-            dispatch={dispatch}
             activeTier={activeTier}
             onTierChange={setActiveTier}
             onFinish={handleFinish}
@@ -85,8 +85,6 @@ function App() {
         <section id="tab-assessment" className={'tab-panel' + (activeTab === 'assessment' ? ' active' : '')}>
           <AssessmentTab
             tests={data.baseline_tests}
-            draft={draft}
-            dispatch={dispatch}
             onSaveAssessment={() => setActiveTab('workout')}
           />
         </section>
@@ -112,4 +110,8 @@ function App() {
   );
 }
 
-createRoot(document.getElementById('root')).render(<App />);
+createRoot(document.getElementById('root')).render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
