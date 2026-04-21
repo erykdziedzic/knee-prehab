@@ -714,6 +714,25 @@
           ]
         },
         {
+          "exercise_name": "Bodyweight Squat to Box",
+          "sets_completed": [
+            {
+              "reps": 10,
+              "weight_kg": null,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 1
+            },
+            {
+              "reps": 10,
+              "weight_kg": null,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 1
+            }
+          ]
+        },
+        {
           "exercise_name": "Leg Press",
           "sets_completed": [
             {
