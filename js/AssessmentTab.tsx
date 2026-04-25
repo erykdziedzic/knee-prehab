@@ -47,7 +47,7 @@ export default function AssessmentTab({ tests, onSaveAssessment }: AssessmentTab
 
 function TestCard({ test }: { test: BaselineTest }) {
   const dispatch = useDispatch();
-  const d = useSelector((state: RootState) => state.baselineInputs[test.id] || {});
+  const d = useSelector((state: RootState) => state.draft.baselineInputs[test.id] || {});
   const isScore = test.unit === 'score_0_10';
 
   const handleChange = (side: string, value: string) => {

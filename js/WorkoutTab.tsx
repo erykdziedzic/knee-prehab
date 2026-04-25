@@ -18,7 +18,7 @@ interface WorkoutTabProps {
 }
 
 export default function WorkoutTab({ data, activeTier, onTierChange, onFinish }: WorkoutTabProps) {
-  const isEditing = useSelector((state: RootState) => state.editingSessionIndex !== null);
+  const isEditing = useSelector((state: RootState) => state.draft.editingSessionIndex !== null);
 
   return (
     <>
@@ -73,7 +73,7 @@ function ExerciseRow({ ex, tier }: { ex: Exercise; tier: string }) {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const type = exType(ex);
-  const d = useSelector((state: RootState) => state.exerciseInputs[ex.name]);
+  const d = useSelector((state: RootState) => state.draft.exerciseInputs[ex.name]);
   const tip = getProgressionTip(ex, tier);
 
   return (

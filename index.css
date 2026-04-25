@@ -27,33 +27,6 @@ button {
   font-size: inherit;
 }
 
-/* Loading overlay & error banner (DOM-managed, outside React) */
-#loading-overlay {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #1a1a1a;
-  color: #9a9a9a;
-  font-size: 1.1rem;
-  z-index: 100;
-}
-
-#loading-overlay[hidden] {
-  display: none;
-}
-
-#error-banner {
-  margin: 16px;
-  padding: 14px 16px;
-  background: rgba(232, 92, 92, 0.15);
-  border: 1px solid #e85c5c;
-  border-radius: 12px;
-  color: #e85c5c;
-  font-size: 0.9rem;
-}
-
 /* Scrollbar hide utility */
 .scrollbar-hide {
   scrollbar-width: none;

@@ -2,41 +2,32 @@ import '../index.css';
 import { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider, useSelector, useDispatch } from 'react-redux';
-import { store, DRAFT_KEY, restoreDraft, clear, loadSession, type RootState } from './store';
+import { store, DRAFT_KEY, restoreDraft, clear, loadSession, useGetAppDataQuery, type RootState } from './store';
 import { buildSessionObject, triggerDownload } from './session';
 import WorkoutTab from './WorkoutTab';
 import AssessmentTab from './AssessmentTab';
 import HistoryTab from './HistoryTab';
-import type { AppData, DraftState, Session } from './types';
+import type { DraftState, Session } from './types';
 
 function App() {
-  const [data, setData] = useState<AppData | null>(null);
+  const { data, isSuccess, isError } = useGetAppDataQuery();
   const [activeTab, setActiveTab] = useState('workout');
   const [activeTier, setActiveTier] = useState('1-2');
   const [storedDraft, setStoredDraft] = useState<DraftState | null>(null);
   const dispatch = useDispatch();
-  const draft = useSelector((state: RootState) => state);
+  const draft = useSelector((state: RootState) => state.draft);
 
   useEffect(() => {
-    fetch(import.meta.env.BASE_URL + 'data.json')
-      .then(res => { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
-      .then((d: AppData) => {
-        setData(d);
-        const raw = localStorage.getItem(DRAFT_KEY);
-        if (raw) {
-          try { setStoredDraft(JSON.parse(raw) as DraftState); } catch (_) { localStorage.removeItem(DRAFT_KEY); }
-        }
-        (document.getElementById('loading-overlay') as HTMLElement).hidden = true;
-      })
-      .catch(() => {
-        (document.getElementById('loading-overlay') as HTMLElement).hidden = true;
-        const banner = document.getElementById('error-banner') as HTMLElement;
-        banner.hidden = false;
-        banner.textContent = 'Failed to load data.json.';
-      });
-  }, []);
+    if (!isSuccess) return;
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (raw) {
+      try { setStoredDraft(JSON.parse(raw) as DraftState); } catch (_) { localStorage.removeItem(DRAFT_KEY); }
+    }
+  }, [isSuccess]);
 
-  if (!data) return null;
+  if (!data) return isError
+    ? <div className="m-4 p-3.5 bg-red-500/15 border border-red-500 rounded-xl text-red-400 text-sm">Failed to load data.json.</div>
+    : <div className="fixed inset-0 flex items-center justify-center bg-[#1a1a1a] text-muted text-lg z-50">Loading…</div>;
 
   const handleContinue = () => {
     dispatch(restoreDraft(storedDraft!));
@@ -50,7 +41,7 @@ function App() {
 
   const handleFinish = () => {
     const session = buildSessionObject(data, draft);
-    const updated: AppData = JSON.parse(JSON.stringify(data));
+    const updated = JSON.parse(JSON.stringify(data));
     if (!updated.sessions) updated.sessions = [];
     if (draft.editingSessionIndex !== null) {
       updated.sessions[draft.editingSessionIndex] = session;

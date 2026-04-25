@@ -1,7 +1,8 @@
 import { createSlice, configureStore, type PayloadAction } from '@reduxjs/toolkit';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { exType } from './utils';
 import type { DraftState, ExerciseInput, ExerciseSetInput } from './types';
-import type { Block, Session } from './types';
+import type { AppData, Block, Session } from './types';
 
 export const DRAFT_KEY = 'knee_prehab_draft';
 
@@ -102,12 +103,30 @@ const draftSlice = createSlice({
 
 export const { setExerciseField, setExerciseSetField, setBaselineField, markAssessmentRun, loadSession, restoreDraft, clear } = draftSlice.actions;
 
-export const store = configureStore({ reducer: draftSlice.reducer });
+export const appDataApi = createApi({
+  reducerPath: 'appData',
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.BASE_URL }),
+  endpoints: (builder) => ({
+    getAppData: builder.query<AppData, void>({
+      query: () => 'data.json',
+    }),
+  }),
+});
+
+export const { useGetAppDataQuery } = appDataApi;
+
+export const store = configureStore({
+  reducer: {
+    draft: draftSlice.reducer,
+    [appDataApi.reducerPath]: appDataApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(appDataApi.middleware),
+});
 
 export type RootState = ReturnType<typeof store.getState>;
 
 store.subscribe(() => {
-  const draft = store.getState();
+  const draft = store.getState().draft;
   const hasData = draft.assessmentRun ||
     draft.editingSessionIndex !== null ||
     Object.keys(draft.exerciseInputs).length > 0 ||
