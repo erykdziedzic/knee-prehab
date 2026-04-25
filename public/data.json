@@ -149,6 +149,31 @@
               "instruction": "Add 2.5-5 kg when RPE drops below 7"
             }
           ]
+        },
+        {
+          "name": "Back Squat (Half Squat)",
+          "sets": 4,
+          "reps": "6-8",
+          "duration_min": null,
+          "rpe": "7-8",
+          "tempo": "3-0-1",
+          "rest_sec": 120,
+          "notes": "Barbell on traps, squat to ~90 degrees knee flexion only (half squat). Knees track over toes. Primary cycling power transfer exercise — targets same hip extension pattern as pedal stroke.",
+          "reference": "ronnestad_2010",
+          "progression": [
+            {
+              "weeks": "1-2",
+              "instruction": "Find working weight, start ~40-50 kg, prioritize form"
+            },
+            {
+              "weeks": "3-4",
+              "instruction": "Add 5 kg if all sets completed at RPE ≤7"
+            },
+            {
+              "weeks": "5+",
+              "instruction": "Continue adding 2.5-5 kg per session when possible"
+            }
+          ]
         }
       ]
     },
@@ -334,6 +359,11 @@
       "key": "loudon_2002",
       "citation": "Loudon JK, Wiesner D, Goist-Foley HL, Asjes C, Loudon KL. Intrarater reliability of functional performance tests for subjects with patellofemoral pain syndrome. J Athl Train. 2002;37(3):256-261.",
       "claim": "Single-leg wall sit and step-down tests demonstrate good intrarater reliability for assessing functional performance in patellofemoral pain populations."
+    },
+    {
+      "key": "ronnestad_2010",
+      "citation": "Rønnestad BR, Hansen EA, Raastad T. Strength training improves 5-min all-out performance following 185 min of cycling. Scand J Med Sci Sports. 2010;20(5):713-720.",
+      "claim": "12 weeks of heavy strength training including half-squats (3×4–10 RM) produced significant improvements in 5-min cycling time trial performance and reduced oxygen cost at submaximal intensities."
     },
     {
       "key": "piva_2006",
