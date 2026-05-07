@@ -229,19 +229,19 @@
           ]
         },
         {
-          "name": "Clamshell with Band (Feet Elevated)",
+          "name": "Clamshell with Kettlebell on Knee (Feet Elevated)",
           "sets": 2,
           "reps": "15 each side",
           "duration_min": null,
           "rpe": null,
           "tempo": null,
           "rest_sec": 30,
-          "notes": "Feet on bench variation increases glute med activation by ~30% vs floor. Targets external rotators to protect against knee valgus.",
+          "notes": "Feet on bench variation increases glute med activation by ~30% vs floor. Rest kettlebell on knee for resistance. Targets external rotators to protect against knee valgus.",
           "reference": "selkowitz_2013",
           "progression": [
             {
               "weeks": "all",
-              "instruction": "Progress band resistance when RPE <5"
+              "instruction": "Increase kettlebell weight when RPE <5"
             }
           ]
         }
@@ -623,7 +623,7 @@
           ]
         },
         {
-          "exercise_name": "Clamshell with Band (Feet Elevated)",
+          "exercise_name": "Clamshell with Kettlebell on Knee (Feet Elevated)",
           "sets_completed": [
             {
               "reps": 0,
@@ -943,7 +943,7 @@
           ]
         },
         {
-          "exercise_name": "Clamshell with Band (Feet Elevated)",
+          "exercise_name": "Clamshell with Kettlebell on Knee (Feet Elevated)",
           "sets_completed": [
             {
               "reps": 15,
@@ -1263,7 +1263,7 @@
           ]
         },
         {
-          "exercise_name": "Clamshell with Band (Feet Elevated)",
+          "exercise_name": "Clamshell with Kettlebell on Knee (Feet Elevated)",
           "sets_completed": [
             {
               "reps": 15,
