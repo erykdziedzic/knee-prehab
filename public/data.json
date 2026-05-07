@@ -208,19 +208,19 @@
           ]
         },
         {
-          "name": "Side-Lying Hip Abduction (Cable)",
+          "name": "Hip Abduction Machine",
           "sets": 3,
-          "reps": "12-15 each leg",
+          "reps": "12-15",
           "duration_min": null,
           "rpe": null,
           "tempo": null,
           "rest_sec": 45,
-          "notes": "Cable at ankle, standing with slight forward trunk lean. Slow and controlled. Targets glute medius to reduce femoral internal rotation and medial knee stress.",
+          "notes": "Seated hip abduction machine, both legs simultaneously. Slow and controlled. Targets glute medius to reduce femoral internal rotation and medial knee stress.",
           "reference": "powers_2010",
           "progression": [
             {
               "weeks": "1-2",
-              "instruction": "Light band or 5 kg cable"
+              "instruction": "Light machine weight"
             },
             {
               "weeks": "3+",
