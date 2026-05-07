@@ -67,6 +67,7 @@
         },
         {
           "name": "Bodyweight Squat to Box",
+          "bodyweight": true,
           "sets": 2,
           "reps": "10",
           "duration_min": null,

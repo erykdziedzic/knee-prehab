@@ -107,19 +107,21 @@ function ExerciseRow({ ex, tier }: { ex: Exercise; tier: string }) {
           </label>
         ) : (
           <>
-            <label className="flex flex-col gap-1 mb-2.5">
-              <span className="text-xs text-muted uppercase tracking-wide">Weight (kg)</span>
-              <input
-                type="number"
-                inputMode="decimal"
-                min="0"
-                step="0.5"
-                placeholder="0"
-                className={inputCls}
-                value={d?.weight_kg ?? ''}
-                onChange={e => dispatch(setExerciseField({ name: ex.name, field: 'weight_kg', value: e.target.value }))}
-              />
-            </label>
+            {!ex.bodyweight && (
+              <label className="flex flex-col gap-1 mb-2.5">
+                <span className="text-xs text-muted uppercase tracking-wide">Weight (kg)</span>
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  min="0"
+                  step="0.5"
+                  placeholder="0"
+                  className={inputCls}
+                  value={d?.weight_kg ?? ''}
+                  onChange={e => dispatch(setExerciseField({ name: ex.name, field: 'weight_kg', value: e.target.value }))}
+                />
+              </label>
+            )}
             <table className="w-full text-sm">
               <thead>
                 <tr>

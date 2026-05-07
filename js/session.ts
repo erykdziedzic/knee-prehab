@@ -47,7 +47,7 @@ export function buildSessionObject(data: AppData, draft: DraftState): Session {
           });
         }
       } else if (type === 'bilateral') {
-        const weight = d.weight_kg !== '' ? parseFloat(d.weight_kg ?? '') : null;
+        const weight = ex.bodyweight ? null : (d.weight_kg !== undefined && d.weight_kg !== '' ? parseFloat(d.weight_kg) : null);
         (d.sets || []).forEach(s => {
           ['left', 'right'].forEach(side => {
             const repsVal = side === 'left' ? s.left_reps : s.right_reps;
@@ -58,7 +58,7 @@ export function buildSessionObject(data: AppData, draft: DraftState): Session {
           });
         });
       } else {
-        const weight = d.weight_kg !== '' ? parseFloat(d.weight_kg ?? '') : null;
+        const weight = ex.bodyweight ? null : (d.weight_kg !== undefined && d.weight_kg !== '' ? parseFloat(d.weight_kg) : null);
         (d.sets || []).forEach(s => {
           log.sets_completed.push({
             reps: s.reps !== '' ? parseInt(s.reps ?? '', 10) : null,
