@@ -1,8 +1,8 @@
 import { useState, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setExerciseField, setExerciseSetField, type RootState } from './store';
-import { exType, durationSec, formatDuration, buildMeta, getProgressionTip, targetReps } from './utils';
-import type { AppData, Exercise, Block } from './types';
+import { exType, durationSec, formatDuration, buildMeta, getProgressionTip, targetReps, lastUsedWeight } from './utils';
+import type { AppData, Exercise, Block, Session } from './types';
 
 const TIERS = ['1-2', '3-4', '5+'] as const;
 const TIER_LABELS: Record<string, string> = { '1-2': 'Wks 1–2', '3-4': 'Wks 3–4', '5+': 'Wks 5+' };
@@ -37,7 +37,7 @@ export default function WorkoutTab({ data, activeTier, onTierChange, onFinish }:
       </div>
       <div className="pb-2">
         {data.blocks.map(block => (
-          <BlockCard key={block.name} block={block} tier={activeTier} />
+          <BlockCard key={block.name} block={block} tier={activeTier} sessions={data.sessions} />
         ))}
       </div>
       <div className="p-4">
@@ -53,7 +53,7 @@ export default function WorkoutTab({ data, activeTier, onTierChange, onFinish }:
   );
 }
 
-function BlockCard({ block, tier }: { block: Block; tier: string }) {
+function BlockCard({ block, tier, sessions }: { block: Block; tier: string; sessions: Session[] | undefined }) {
   return (
     <section className="mx-4 mt-4 bg-surface rounded-xl overflow-hidden border border-app-border">
       <div className="px-4 py-3 text-xs tracking-widest uppercase text-accent border-b border-app-border flex justify-between items-center">
@@ -62,19 +62,20 @@ function BlockCard({ block, tier }: { block: Block; tier: string }) {
       </div>
       <div>
         {block.exercises.map(ex => (
-          <ExerciseRow key={ex.name} ex={ex} tier={tier} />
+          <ExerciseRow key={ex.name} ex={ex} tier={tier} sessions={sessions} />
         ))}
       </div>
     </section>
   );
 }
 
-function ExerciseRow({ ex, tier }: { ex: Exercise; tier: string }) {
+function ExerciseRow({ ex, tier, sessions }: { ex: Exercise; tier: string; sessions: Session[] | undefined }) {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const type = exType(ex);
   const d = useSelector((state: RootState) => state.draft.exerciseInputs[ex.name]);
   const tip = getProgressionTip(ex, tier);
+  const prevWeight = lastUsedWeight(sessions, ex.name);
 
   return (
     <div className="px-4 py-3.5 border-b border-app-border last:border-b-0">
@@ -109,13 +110,15 @@ function ExerciseRow({ ex, tier }: { ex: Exercise; tier: string }) {
           <>
             {!ex.bodyweight && (
               <label className="flex flex-col gap-1 mb-2.5">
-                <span className="text-xs text-muted uppercase tracking-wide">Weight (kg)</span>
+                <span className="text-xs text-muted uppercase tracking-wide">
+                  Weight (kg){prevWeight != null && <span className="normal-case tracking-normal"> · Last: {prevWeight} kg</span>}
+                </span>
                 <input
                   type="number"
                   inputMode="decimal"
                   min="0"
                   step="0.5"
-                  placeholder="0"
+                  placeholder={prevWeight != null ? String(prevWeight) : '0'}
                   className={inputCls}
                   value={d?.weight_kg ?? ''}
                   onChange={e => dispatch(setExerciseField({ name: ex.name, field: 'weight_kg', value: e.target.value }))}

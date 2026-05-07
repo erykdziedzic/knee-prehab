@@ -1,4 +1,4 @@
-import type { Exercise } from './types';
+import type { Exercise, Session } from './types';
 
 export type ExType = 'bilateral' | 'standard' | 'duration';
 
@@ -67,4 +67,14 @@ export function unitShort(unit: string): string {
   if (unit === 'reps') return 'reps';
   if (unit === 'score_0_10') return '/10';
   return unit;
+}
+
+export function lastUsedWeight(sessions: Session[] | undefined, exerciseName: string): number | null {
+  if (!sessions) return null;
+  for (let i = sessions.length - 1; i >= 0; i--) {
+    const log = sessions[i].exercise_logs?.find(l => l.exercise_name === exerciseName);
+    const w = log?.sets_completed?.[0]?.weight_kg;
+    if (w != null) return w;
+  }
+  return null;
 }
