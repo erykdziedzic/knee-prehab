@@ -1,4 +1,4 @@
-import { createSlice, configureStore, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, configureStore, type PayloadAction, type Middleware } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { exType } from './utils';
 import type { DraftState, ExerciseInput, ExerciseSetInput } from './types';
@@ -115,25 +115,28 @@ export const appDataApi = createApi({
 
 export const { useGetAppDataQuery } = appDataApi;
 
+const draftPersistMiddleware: Middleware = (api) => (next) => (action) => {
+  const result = next(action);
+  if (!String((action as { type: string }).type).startsWith('draft/')) return result;
+  if (draftSlice.actions.clear.match(action)) {
+    localStorage.removeItem(DRAFT_KEY);
+    return result;
+  }
+  const draft = (api.getState() as { draft: DraftState }).draft;
+  const hasData = draft.assessmentRun ||
+    draft.editingSessionIndex !== null ||
+    Object.keys(draft.exerciseInputs).length > 0 ||
+    Object.keys(draft.baselineInputs).length > 0;
+  if (hasData) localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+  return result;
+};
+
 export const store = configureStore({
   reducer: {
     draft: draftSlice.reducer,
     [appDataApi.reducerPath]: appDataApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(appDataApi.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(appDataApi.middleware, draftPersistMiddleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-
-store.subscribe(() => {
-  const draft = store.getState().draft;
-  const hasData = draft.assessmentRun ||
-    draft.editingSessionIndex !== null ||
-    Object.keys(draft.exerciseInputs).length > 0 ||
-    Object.keys(draft.baselineInputs).length > 0;
-  if (hasData) {
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-  } else {
-    localStorage.removeItem(DRAFT_KEY);
-  }
-});
