@@ -1367,6 +1367,305 @@
           ]
         }
       ]
+    },
+    {
+      "date": "2026-05-13",
+      "baseline_results": [],
+      "exercise_logs": [
+        {
+          "exercise_name": "Bike or Rower",
+          "sets_completed": [
+            {
+              "reps": null,
+              "weight_kg": null,
+              "duration_sec": 180,
+              "side": null,
+              "rpe_actual": null
+            }
+          ]
+        },
+        {
+          "exercise_name": "Leg Press",
+          "sets_completed": [
+            {
+              "reps": 8,
+              "weight_kg": 120,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 7
+            },
+            {
+              "reps": 8,
+              "weight_kg": 120,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 8
+            },
+            {
+              "reps": 8,
+              "weight_kg": 120,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 8
+            },
+            {
+              "reps": 8,
+              "weight_kg": 120,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 7
+            }
+          ]
+        },
+        {
+          "exercise_name": "Spanish Squat",
+          "sets_completed": [
+            {
+              "reps": 12,
+              "weight_kg": 25,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 6
+            },
+            {
+              "reps": 12,
+              "weight_kg": 25,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 6
+            },
+            {
+              "reps": 12,
+              "weight_kg": 25,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": null
+            }
+          ]
+        },
+        {
+          "exercise_name": "Romanian Deadlift",
+          "sets_completed": [
+            {
+              "reps": 10,
+              "weight_kg": 30,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 5
+            },
+            {
+              "reps": 10,
+              "weight_kg": 30,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 5
+            },
+            {
+              "reps": 10,
+              "weight_kg": 30,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 5
+            }
+          ]
+        },
+        {
+          "exercise_name": "Back Squat (Half Squat)",
+          "sets_completed": [
+            {
+              "reps": null,
+              "weight_kg": null,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": null
+            },
+            {
+              "reps": null,
+              "weight_kg": null,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": null
+            }
+          ]
+        },
+        {
+          "exercise_name": "Bulgarian Split Squat",
+          "sets_completed": [
+            {
+              "reps": 8,
+              "weight_kg": 35,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": 10,
+              "weight_kg": 35,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            },
+            {
+              "reps": 8,
+              "weight_kg": 35,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": 8,
+              "weight_kg": 35,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            },
+            {
+              "reps": 8,
+              "weight_kg": 35,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": 8,
+              "weight_kg": 35,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            }
+          ]
+        },
+        {
+          "exercise_name": "Hip Abduction Machine",
+          "sets_completed": [
+            {
+              "reps": 15,
+              "weight_kg": 55,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 7
+            },
+            {
+              "reps": 15,
+              "weight_kg": 55,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 8
+            },
+            {
+              "reps": 13,
+              "weight_kg": 55,
+              "duration_sec": null,
+              "side": null,
+              "rpe_actual": 8
+            }
+          ]
+        },
+        {
+          "exercise_name": "Clamshell with Kettlebell on Knee (Feet Elevated)",
+          "sets_completed": [
+            {
+              "reps": 15,
+              "weight_kg": 8,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": 15,
+              "weight_kg": 8,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            },
+            {
+              "reps": 15,
+              "weight_kg": 8,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": 15,
+              "weight_kg": 8,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            }
+          ]
+        },
+        {
+          "exercise_name": "Single-Leg Calf Raise (Step, Weighted)",
+          "sets_completed": [
+            {
+              "reps": 10,
+              "weight_kg": 20,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": 12,
+              "weight_kg": 20,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            },
+            {
+              "reps": 12,
+              "weight_kg": 20,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": 12,
+              "weight_kg": 20,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            },
+            {
+              "reps": 10,
+              "weight_kg": 20,
+              "duration_sec": null,
+              "side": "left",
+              "rpe_actual": null
+            },
+            {
+              "reps": 10,
+              "weight_kg": 20,
+              "duration_sec": null,
+              "side": "right",
+              "rpe_actual": null
+            }
+          ]
+        },
+        {
+          "exercise_name": "Single-Leg Balance on BOSU (Eyes Closed)",
+          "sets_completed": [
+            {
+              "reps": null,
+              "weight_kg": null,
+              "duration_sec": 30,
+              "side": null,
+              "rpe_actual": null
+            }
+          ]
+        },
+        {
+          "exercise_name": "Quad + Hip Flexor Stretch",
+          "sets_completed": [
+            {
+              "reps": null,
+              "weight_kg": null,
+              "duration_sec": 60,
+              "side": null,
+              "rpe_actual": null
+            }
+          ]
+        }
+      ]
     }
   ]
 }
